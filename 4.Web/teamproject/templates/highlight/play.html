@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+	<meta charset = 'UTF-8'>
+    <title>JavaScript</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+	<script  src =https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js >
+	</script>
+    <link rel="shortcut icon" href="/static/images/icons/favicon.ico">
+	<!-- <link rel="stylesheet" href="../css/7-2(lightbox).css"> -->
+	
+</head> 
+
+<body>
+
+    <video width="640" height="480" controls id = play>
+        <source src="/static/highlight/test_news.mp4" type="video/mp4">
+        <source src="/static/highlight/test_news.mp4".ogg" type="video/ogg">
+        Your browser does not support the video tag.
+    </video>
+
+    <input type="button" value = '재생/일시정지' onclick = 'play();'>
+    
+    <form name= starttime action = '' method = 'POST'>
+        {% csrf_token %}
+        <input type="text" name = text>
+        <input type="button" class = 'start_button' value = '시작시간' onclick = 'fun_starttime();'>
+    </form>
+    
+
+    <script>
+        var videocontrol = document.getElementById('play');
+        var start_time = document.forms.starttime.value;
+        var $s_t = $('form[name=starttime]');
+        var $s_b = $('start_button');
+
+        function play(){
+            if(videocontrol.paused){
+                videocontrol.play();
+            }else{
+                videocontrol.pause();
+            }
+        };
+
+        $('.start_botton').click(function(){
+            var param = $s_t.val
+            $.get('/videoView', param, funacion(data){
+                alert(data)
+            })
+            document.write()
+        });
+    </script>
+</body>
+</html>
+
+<!-- https://html.spec.whatwg.org/multipage/media.html#time-ranges -->
+<!-- https://taegon.kim/archives/3058 -->
