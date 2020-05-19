@@ -2,57 +2,105 @@
 <html lang = 'en'>
 <head>
 	<meta charset = 'UTF-8'>
-    <title>JavaScript</title>
+    <title>HighLight</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="http://malsup.github.com/jquery.form.js"></script>
-	<script  src =https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js >
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+	<script src =https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js >
 	</script>
-    <link rel="shortcut icon" href="/static/images/icons/favicon.ico">
-	<!-- <link rel="stylesheet" href="../css/7-2(lightbox).css"> -->
+    <link rel="shortcut icon" href="../../static/images/icons/favicon.ico">
+	<!-- <link rel="stylesheet" href="./css/play.css"> -->
 	
 </head> 
 
 <body>
+    <!-- <iframe src="../static/highlight/test_news.mp4" height="480" width="640" id = play></iframe> -->
 
+    <h2>원본</h2>
     <video width="640" height="480" controls id = play>
-        <source src="/static/highlight/test_news.mp4" type="video/mp4">
-        <source src="/static/highlight/test_news.mp4".ogg" type="video/ogg">
-        Your browser does not support the video tag.
-    </video>
+        <source src="../static/highlight/test_news.mp4" type="video/mp4">
+        <source src="../static/highlight/test_news.ogg" type="video/ogg">
+    </video> 
 
-    <input type="button" value = '재생/일시정지' onclick = 'play();'>
+    <input type="button" value = '재생/일시정지' onclick = 'play_pause();'>
     
-    <form name= starttime action = '' method = 'POST'>
-        {% csrf_token %}
-        <input type="text" name = text>
-        <input type="button" class = 'start_button' value = '시작시간' onclick = 'fun_starttime();'>
-    </form>
-    
-
+   
+    <!-- <script type = 'text/javascript' src = './js/play.js'> -->
     <script>
-        var videocontrol = document.getElementById('play');
-        var start_time = document.forms.starttime.value;
-        var $s_t = $('form[name=starttime]');
+        
+        var $s_t = $('form[name=start]');
         var $s_b = $('start_button');
+        var $st= $('#st')
 
-        function play(){
+
+        /////play, pause toggle
+        function play_pause(){
             if(videocontrol.paused){
                 videocontrol.play();
             }else{
                 videocontrol.pause();
             }
         };
-
-        $('.start_botton').click(function(){
-            var param = $s_t.val
-            $.get('/videoView', param, funacion(data){
-                alert(data)
-            })
-            document.write()
-        });
     </script>
+
+    <hr>
+    <!-- start, end time 입력 -->
+    <h2>시간 입력</h2>
+    <form name= time action = 'output' method="GET" >
+        {% csrf_token %}
+        <input type="text" name = text id = starttime>
+        <input type="text" name = text id = endtime>
+        <input type="button" class = 'crop_button' value = 'play' >
+    </form>
+
+    <script>
+    $('.crop_button').click(function(){
+        $.get({url: 'output', 
+                data: {'starttime': $('#starttime').val(),
+                        'endtime': $('#endtime').val()},
+                success: function(data){
+                        alert(data['starttime']);
+                        alert(data['endtime']);
+
+                            }
+                        }
+        )}
+    );
+    </script>
+
+    <hr>
+    <h2>자른 비디오 재생</h2>
+
+    <input type="button" value = '자른 비디오 재생' onclick = 'crop_play();'>
+
+    <video width="640" height="480" controls id = play>
+        <source src="../static/highlight/test_news.mp4" type="video/mp4">
+        <source src="../static/highlight/test_news.ogg" type="video/ogg">
+    </video> 
+
+    <canvas id="my-canvas" width="300" height="20">
+    </canvas>
+
+    <script>
+        var $starttime = data['starttime']
+        var $endtime = data['endtime']
+        var $bufferedTimeRanges = $('#play').buffered;
+        
+        function crop_play(){
+        $bufferedTimeRanges.start(0);
+        $bufferedTimeRanges.end(1);
+        // $bufferedTimeRanges.start(1);
+        // $bufferedTimeRanges.end(1);
+        }
+
+    </script>
+
+
+
+
+    
 </body>
 </html>
 
 <!-- https://html.spec.whatwg.org/multipage/media.html#time-ranges -->
 <!-- https://taegon.kim/archives/3058 -->
+<!-- https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/buffering_seeking_time_ranges -->
