@@ -25,7 +25,8 @@ from . import apps
 
 # 함수 따로 만들기
 def input(request):
-    return render(request, 'highlight/play_videotag.html')
+    # return render(request, 'highlight/play_videotag.html')
+    return render(request, 'highlight/video_edit.html')
 
 
 def output(request):
