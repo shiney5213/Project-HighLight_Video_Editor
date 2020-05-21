@@ -235,12 +235,9 @@ $('.END_btn').on('click', function(){
     $('.canvasBar').css('margin-left' , 100);
 
     //for문
-    for (var i = 0; i < headers.length; i++) {
-
-        alert($(headers[i]).html());
-
+    for (var i = 0; i < $time_array2.length; i++) {
+        alert($time_array2[i]);
     }
-
 });
 
 
