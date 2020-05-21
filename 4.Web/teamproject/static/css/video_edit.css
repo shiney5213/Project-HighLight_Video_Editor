@@ -3,8 +3,9 @@
     position: relative;
     width: 600px;
     height: 10px;
-    background-color: #000;
+    background-color: black;
 }
+
 .timeBar
 {
     position: absolute;
@@ -14,3 +15,39 @@
     height: 100%;
     background-color: #ccc;
 }
+
+
+.progressBar2
+{
+    position: relative;
+    top: 100px;
+    width: 600px;
+    height: 10px;
+    background-color: black;
+}
+
+.timeBar2
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: red;
+}
+
+.btn
+{
+    background-color: blue;
+    position: relative;
+    top: 250px;
+}
+
+.canvasBar
+{
+    height: 10px;
+    /* width: 600px; */
+    position: absolute;
+    top: 15px;
+    background-color: black;
+    }
