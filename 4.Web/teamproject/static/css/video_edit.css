@@ -20,7 +20,7 @@
 .progressBar2
 {
     position: relative;
-    top: 100px;
+    /* top: 100px; */
     width: 600px;
     height: 10px;
     background-color: black;
@@ -33,21 +33,48 @@
     left: 0;
     width: 0;
     height: 100%;
-    background-color: red;
+    background-color: #ccc;
 }
 
 .btn
 {
-    background-color: blue;
+    /* background-color: blue; */
     position: relative;
-    top: 250px;
+    /* top: 250px; */
 }
 
-.canvasBar
+#canvasBar
 {
     height: 10px;
-    /* width: 600px; */
-    position: absolute;
-    top: 15px;
-    background-color: black;
+    width: 600px; 
+    position: absolute; 
+    /* background-color: yellow;   */
     }
+
+#barCanvas
+{
+    height: 10px;
+    width: 600px; 
+    position: absolute; 
+    /* background-color: yellow;   */
+    }
+.progressBar3
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: antiquewhite;
+    border: black solid 2px;
+}
+
+.progressBar4
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: antiquewhite;
+    border: black solid 2px;
+}
+    
