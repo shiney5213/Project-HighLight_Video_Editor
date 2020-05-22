@@ -29,47 +29,60 @@
     <!-- Display Video Current Playback Time and Duration -->
     <div class="progressTime">
         Current play time: <span class="current"></span><br>
-        Video duration: <span class="duration"></span>
+        Video duration: <span class="duration"></span><br>
+        Percentage: <span class = 'percentage'></span><br>
+        <!-- Maxduration: <span class = 'maxduration'></span><br> -->
+        <!-- CurrentPos: <span class = 'currentPos'></span><br> -->
+
     </div>
 
     <!-- Video Progress Bar -->
     <div class="progressBar">
         <div class="timeBar"></div><br>
-        Maxduration: <span class = 'maxduration'></span><br>
-        CurrentPos: <span class = 'currentPos'></span><br>
-        Percentage: <span class = 'percentage'></span><br>
-    </div>
-    <br>
-
+    </div><br>
     <!-- start, end -->
     
     <div class="progressBar2">
         <div class="timeBar2"></div><br>
-        <div class = canvasBar>
-            <!-- <canvas class = 'myCanvas'></canvas> -->
-        </div><br>
+    </div>
+    <h5>클릭하는 순서대로</h5>
+    <div class = "progressBar3">
+        <!-- <div class = 'canvasBar'></div>   -->
+    </div>
+    time_array: <span class="timearray"></span><br>
+    canvas_array: <sapan class = 'caanvasarray'></sapan><br>
+    <br>
 
+    <div class = btn>
+        <input type="button" value = 'start time' class = start_btn>
+        <input type="button" value = 'end time' class = end_btn>
+        <input type="button" value = '확인' class = check_btn>
+        <input type="button" value = '수정' class = modify_btn>
+
+    </div>
+    <div class = "progressBar4">
+        <!-- <div class = 'canvasBar'></div>   -->
+    </div><br>
+
+       
+        <br>  
+        min_num : <span class = 'minnum'></span><br>
+
+        width: <span class ='divwidth'></span><br>   
         Start time: <span class="starttime"></span><br>
-        End time: <span class = 'endtime'></span>
+        End time: <span class = 'endtime'></span><br>
 
-        <br>
+        
         <!-- Video duration: <span class="duration2"></span><br>
         Maxduration2: <span class = 'maxduration2'></span><br>
         CurrentPos2: <span class = 'currentPos2'></span><br>
         Percentage2: <span class = 'percentage2'></span><br> -->
         Start_time_array: <span class="starttimearray"></span><br>
         End_time_array: <span class="endtimearray"></span><br>
-        time_array: <span class="timearray"></span><br>
-
         Cansvas position: <span class="canvasposition"></span><br>
 
-    </div><br>
 
-    <div class = btn>
-        <input type="button" value = 'start time' class = start_btn>
-        <input type="button" value = 'end time' class = end_btn>
-        <input type="button" value = 'END' class = END_btn>
-    </div>
+    
     
     
     <script type = 'text/javascript' src = '/static/js/video_edit.js'></script>
