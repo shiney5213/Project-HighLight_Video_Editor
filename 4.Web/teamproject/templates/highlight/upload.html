@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+	<meta charset = 'UTF-8'>
+    <title>HighLight</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    </script>
+    
+    <link rel="shortcut icon" href="../../static/images/icons/favicon.ico">
+	<!-- <link rel="stylesheet"  type = 'text/css' href="/static/css/video_edit.css"> -->
+
+</head> 
+
+<body>
+    <!-- <script type = 'text/javascript' src = '/teamproject/templates/highlight/js/play_inwebson.js'></script> -->
+    <h2>upload 성공!</h2>
+
+    <form action='videoedit' enctype="multipart/form-data" method = 'POST'>
+        {% csrf_token %}
+        <input type = 'file' name = 'filename'>
+        <input type = 'submit' value = 'upload'>
+    </form>
+
+</body>
+</html>
