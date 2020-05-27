@@ -19,8 +19,13 @@ from highlight import views
 app_name = 'highlight'
 urlpatterns = [
     # path('', views.index),
-    path('output', views.output),
-    path('', views.input),
-    # path('', views.videoView.as_view(), name = 'video'),
+    # path('output', views.output),
+    # path('', views.input),
+    # path('upload', views.upload),   # highlight/upload
+    # path('videoedit', views.video_edit),   # highlight/upload
+    path('videoedit', views.uploadView.as_view(), name = 'vidoedit'),
+    path('download', views.downloadView.as_view(), name = 'download'),   # highlight/download
+    # path('download', views.download),   # highlight/download
+    path('upload', views.uploadView.as_view(), name = 'upload'),
     # path('admin/', admin.site.urls),
 ]
