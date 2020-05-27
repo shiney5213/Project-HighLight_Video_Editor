@@ -15,6 +15,72 @@ $(function(){
     var $timeDrag2 = false;
     var $status ='start' ;
 
+    /////비디오에서 재생시간 설정
+    //get HTML5 video time duration
+    $video.on('loadedmetadata', function() {
+        $('.duration').text($video[0].duration);
+    });
+    
+    //update HTML5 video current play time
+    $video.on('timeupdate', function() {
+        $('.current').text($video[0].currentTime);
+    });
+
+    //get HTML5 video time duration
+    $video.on('loadedmetadata', function() {
+        $('.duration').text($video[0].duration);
+    });
+    
+    //update HTML5 video current play time
+    $video.on('timeupdate', function() {
+        var $currentPos = $video[0].currentTime; //Get currenttime
+        var $maxduration = $video[0].duration; //Get video duration
+        var $percentage = 100 * $currentPos / $maxduration; //in %
+        $('.maxduration').text($maxduration);
+        $('.currentPos').text($currentPos);
+        $('.percentage').text($percentage);
+        $('.timeBar').css('width', $percentage+'%');
+    });
+
+    /////3. progressBar에서 조작
+    //Drag, search
+    var $timeDrag = false;   /* Drag status */
+    $('.progressBar').mousedown(function(e) {
+        $timeDrag = true;
+        $updatebar(e.pageX);
+    });
+    $(document).mouseup(function(e) {
+        if($timeDrag) {
+            $timeDrag = false;
+            $updatebar(e.pageX);
+        }
+    });
+    $(document).mousemove(function(e) {
+        if($timeDrag) {
+            $updatebar(e.pageX);
+        }
+    });
+ 
+    //update Progress Bar control
+    var $updatebar = function(x) {
+        var $progress = $('.progressBar');
+        var $maxduration = $video[0].duration; //Video duraiton
+        var $position = x - $progress.offset().left; //Click pos
+        var $percentage = 100 * $position / $progress.width();
+    
+        //Check within range
+        if($percentage > 100) {
+            $percentage = 100;
+        }
+        if($percentage < 0) {
+            $percentage = 0;
+        }
+    
+        //Update progress bar and video currenttime
+        $('.timeBar').css('width', $percentage+'%');
+        $video[0].currentTime = $maxduration * $percentage / 100;
+    };
+
     var $updatebar3 = function(x) {
         $('.status').text($status);
         $('.modify').text($modify);
@@ -64,10 +130,10 @@ $(function(){
             //배열 값 표시
             $('.endtime').text($end_time_array2)
         };
+        $('.timeBar2').css('width', $percentage+'%');
+
+
     };
-
-
-       
 
     var $modifytime = function(x) {
         var $progress4 = $('.progressBar2');
@@ -196,6 +262,36 @@ $(function(){
         if($final_end.length < $final_start.length && !$modify){
             alert('end 지점을 추가하세요');
         };
+    });
+
+    $('.save_btn').on('click', function(){
+        //form 태그 만들고 post방식으로 보내기
+        //정보 넘기기
+       
+        function post_to_url(params){
+            // method = meghod||'post';
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', 'download');
+            form.setAttribute('id', 'hiddenform');
+            form.setAttribute('name', 'hiddenform');
+
+            $('.hiddenform').append(form);
+
+            for(var key in params){
+                var hiddenField = document.createElement('input');
+                hiddenField.setAttribute('type', 'hidden');
+                hiddenField.setAttribute('name', key);
+                hiddenField.setAttribute('value', params[key]);
+                form.appendChild(hiddenField);
+            }
+        }
+
+        post_to_url({'startarray': $start_time_array2,
+                    'endarray': $end_time_array2});
+
+        //자동으로 submit하기
+        document.hiddenform.submit();
     });
 });
 
