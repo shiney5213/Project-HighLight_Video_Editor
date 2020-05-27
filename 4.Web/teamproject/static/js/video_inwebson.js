@@ -21,8 +21,6 @@ $('.btnPlay').on('click', function() {
 //get HTML5 video time duration
 $video.on('loadedmetadata', function() {
     $('.duration').text($video[0].duration);
-
-
 });
  
 //update HTML5 video current play time
