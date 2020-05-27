@@ -14,7 +14,7 @@
 
 <body>
     <video id="myVideo" controls poster="../../static/highlight/wait.png" width="600" height="400" >
-        <source src="../static/highlight/test_news.mp4" type="video/mp4" />
+        <source src="../static/highlight/save/{{data}}" type="video/mp4" />
         <!-- <source src="video.webm" type="video/webM" /> -->
         <!-- <source src="video.ogv" type="video/ogg" /> -->
         <p>Your browser does not support the video tag.</p>
@@ -56,6 +56,8 @@
         <input type="button" value = 'end time' class = 'end_btn'>
         <input type="button" value = '확인' class = check_btn>
         <input type="button" value = '수정' class = modify_btn>
+        <input type="button" value = '저장' class = save_btn>
+
 
     </div>
     <div class = "progressBar4">
@@ -75,11 +77,12 @@
         Maxduration2: <span class = 'maxduration2'></span><br>
         CurrentPos2: <span class = 'currentPos2'></span><br>
         Percentage2: <span class = 'percentage2'></span><br> -->
+
         Start_time_array: <span class="starttimearray"></span><br>
         End_time_array: <span class="endtimearray"></span><br>
         Cansvas position: <span class="canvasposition"></span><br>
-
-
+        
+        <div class = 'hiddenform'></div>
     
     
     
