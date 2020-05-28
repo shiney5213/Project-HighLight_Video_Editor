@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.views import View
@@ -11,6 +11,7 @@ from moviepy.editor import VideoFileClip, concatenate_videoclips
 import cv2
 from . import apps
 import shutil
+import random
 
 global filename
 
@@ -40,6 +41,28 @@ CSRF_COOKIE_SECURE = True
 #     return render(request, 'highlight/download.html', context)
 
 
+@csrf_exempt
+def analysis(request):
+    global filename
+    print(request.POST.keys())
+    analysis_start_list = request.POST.get('analysis_start_array[]', '')
+    analysis_end_list =request.POST.get('analysis_end_array[]', '')
+ 
+    analysis_start_list = analysis_start_list.split(',')
+    analysis_end_list=analysis_end_list.split(',')
+    analysis_time = int(float(analysis_end_list[0])-float(analysis_start_list[0]))
+    print('time',analysis_time, type(analysis_time))
+
+    # 임의로 확률값 결정
+    rate_list = [random.random() for i in range(int(analysis_time))]
+    print(len(rate_list), rate_list[0])
+
+    context = {'analysis_time': analysis_time,
+                'rate_list': rate_list}
+    # return render(request, 'highlight/video_jquery.html', context)
+    return JsonResponse(context)
+
+
 class downloadView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
@@ -55,8 +78,6 @@ class downloadView(View):
         starttimearray = request.POST.get('startarray', '')
         endtimearray =request.POST.get('endarray', '')
        
-
-
         startarray = starttimearray.split(',')
         endarray = endtimearray.split(',')
 
@@ -80,9 +101,6 @@ class downloadView(View):
         # clip2 = VideoFileClip(file_path).subclip(10,12)
         final_clip = concatenate_videoclips(clip_list)
         final_clip.write_videofile(new_path)
-
-
-
 
         context = {'data': crop_filename}
         return render(request, 'highlight/download.html', context)
@@ -120,34 +138,6 @@ class uploadView(View):
 
 
 
-# class downloadView(View):
-#     def get(self, request):
-#         return render(request, 'highlight/upload.html')
-
-#     def post(self, request):
-#         print('request', request)
-
-#         try: 
-#             file = request.FILES.get('filename', '')
-#             filename = file._name
-#             print('filename',filename)
-            
-#             if file == '':
-#                 return HttpResponse('file을 다시 upload해주세요')
-#             else:
-#                 fp = open(settings.BASE_DIR + f'/static/highlight/save/{filename}' , 'wb')
-#                 for chunk in file.chunks():
-#                     fp.write(chunk)
-#                 fp.close()
-
-#         except:
-#             filename = request.POST['filename']
-
-#         context= {'data': filename}
-
-#         return render(request, 'highlight/video_jquery.html', context)
-
-
 
 # def index(request):
 #     # return HttpResponse('만들기 성공')
@@ -163,22 +153,3 @@ class uploadView(View):
 #         data = {time : data}
 #         return JsonResponse(data)
 
-       
-
-# # 함수 따로 만들기
-# def video_edit(request):
-#     # return render(request, 'highlight/play_videotag.html')
-#     return render(request, 'highlight/video_jquery.html')
-
-# def output(request):
-#     starttime = request.GET.get('starttime', '0')
-#     endtime = request.GET.get('endtime', '0')
-
-#     data = {'starttime' : starttime, 'endtime': endtime}
-#     print(data)
-#     # return render(request, 'heighlight/result.html', data)
-#     return JsonResponse(data)
-
-# def upload(request):
-
-#     return render(request, 'highlight/upload.html')
