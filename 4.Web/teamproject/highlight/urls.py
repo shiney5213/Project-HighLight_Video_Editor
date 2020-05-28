@@ -27,5 +27,6 @@ urlpatterns = [
     path('download', views.downloadView.as_view(), name = 'download'),   # highlight/download
     # path('download', views.download),   # highlight/download
     path('upload', views.uploadView.as_view(), name = 'upload'),
+    path('analysis', views.analysis),
     # path('admin/', admin.site.urls),
 ]
