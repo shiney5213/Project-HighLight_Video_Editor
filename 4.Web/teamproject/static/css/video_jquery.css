@@ -1,0 +1,176 @@
+/* play_pause */
+/* .play_pause
+{
+    position: relative;
+    width:600px;
+    height: 20px;    
+} */
+
+.progressBar
+{
+    position: relative;
+    width: 600px;
+    height: 10px;
+    /* top: 5px; */
+    background-color: black;
+    border-radius: 7px;
+}
+
+.timeBar
+{
+    border-radius: 7px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #ccc;
+}
+
+#progressCircle{
+    fill : royalblue;
+}
+
+
+.progressBar2
+{
+    position: relative;
+    /* top: 100px; */
+    width: 600px;
+    height: 10px;
+    background-color: black;
+}
+
+.analysistimeBar
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #ccc;
+}
+
+
+.analysisBar
+{
+    position: relative;
+    /* top: 100px; */
+    width: 600px;
+    height: 10px;
+    background-color: black;
+}
+.timeBar2
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #ccc;
+}
+
+.btn
+{
+    /* background-color: blue; */
+    position: relative;
+    /* top: 250px; */
+}
+
+#canvasBar
+{
+    height: 10px;
+    width: 600px; 
+    position: absolute; 
+    /* background-color: yellow;   */
+    }
+
+#barCanvas
+{
+    height: 10px;
+    width: 600px; 
+    position: absolute; 
+    /* background-color: yellow;   */
+    }
+.progressBar3
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: antiquewhite;
+    border: black solid 2px;
+}
+
+.progressBar4
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: antiquewhite;
+    border: black solid 2px;
+}
+ 
+.colorAnalysisBar
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: antiquewhite;
+    border: black solid 2px;
+}
+
+
+
+.bar {
+    fill: steelblue;
+}
+
+#chart1 {
+    line-height: 15px;
+    margin-bottom: 3px;
+    background-color: grey;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 10px;
+    color: #cfcfcf;
+  }
+/* svg{
+    background-color: gray;
+    position: relative;
+}
+
+svg>div{
+    top: 0;
+    left: 0;
+    position: absolute;
+    background-color: black;
+
+} */
+/* 
+body {
+    background-color: #3c3c3c;
+    color: #cfcfcf;
+  } */
+  
+.background {
+    position: relative;
+    height: 150;
+    width: 650;
+    /* line-height: 15px;
+    margin-bottom: 3px; */
+    background-color: gray;
+  }
+.bar {
+    fill: steelblue;
+}
+
+.result {
+    visibility: hidden;
+}
+#graph, #svg{
+    background-color: turquoise;
+}
+
