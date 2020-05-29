@@ -11,21 +11,11 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     
-    <!-- jqplot plugin -->
-    <link class="include" rel="stylesheet" type="text/css" href="../../static/css/jquery_jqplot/jquery.jqplot.css"/>
-    <link class="include" rel="stylesheet" type="text/css" href="../../static/css/jquery_jqplot/jquery.jqplot.min.css"/>  
-
-    <script language="javascript" type="text/javascript" src="../../static/js/jquery_jqplot/jquery.jqplot.js"></script>
-    <script language="javascript" type="text/javascript" src="../../static/js/jquery_jqplot/jquery.jqplot.min.js"></script>
-    <script language="javascript" type="text/javascript" src="../../static/js/jquery_jqplot/plugins/jqplot.barRenderer.js"></script>
-    <script language="javascript" type="text/javascript" src="../../static/js/jquery_jqplot/plugins/jqplot.canvasAxisTickRenderer.js"></script>
-    <script language="javascript" type="text/javascript" src="../../static/js/jquery_jqplot/plugins/jqplot.canvasOverlay.js"></script>
-    <script language="javascript" type="text/javascript" src="../../static/js/jquery_jqplot/plugins/jqplot.pointLabels.js"></script>
 
     <!-- d3.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <!-- <script src="https://d3js.org/d3.v4.js"></script> -->
-    <script src = "https://d3js.org/d3.v5.min.js"> </script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- <script src = "https://d3js.org/d3.v5.min.js"> </script> -->
 
 </head> 
 
@@ -51,14 +41,24 @@
         <!-- CurrentPos: <span class = 'currentPos'></span><br> -->
 
     </div>
-
-    <!-- Video Progress Bar -->
-    play/pause progressBar : progressBar
     <div class="progressBar">
         <div class="timeBar"></div><br>
-    </div><br>
-    <!-- start, end -->
+    </div>
+
+    <!-- Video Progress Bar -->
+    <!-- <div class=play_pause>
+    play/pause progressBar : progressBar
+        <div class="progressBar">
+            <div class="timeBar"></div><br>
+        </div>
+        <svg id = progressCircle>
+            <circle r = 10 ></circle>  
+        </svg>
+    </div><br> -->
+
     
+
+    <!-- analysis -->
     select analysistime Bar: analysisBar
     <div class="analysisBar">
         <!-- <div class="analysisTimeBar"></div> -->
@@ -66,73 +66,76 @@
     
     coloring analysis time: colorAnalysisBar
     <div class = "colorAnalysisBar">
-        <!-- <div class = 'canvasBar'></div>   -->
     </div>
+
     <input type="button" value = 'analysis start' class = 'analysisStartBtn'>
     <input type="button" value = 'analysis end' class = 'analysisEndBtn'>
     <input type="button" value = '분석해주세요' class = 'pleaseAnalysis'>
+    <input type="button" value = '재설정' class = 'resetAnalysisBtn'>
     
     <br>
-    anaysis_start : <span class = 'analysisStart'></span><br>
-    anaysis_end : <span class = 'analysisEnd'></span><br><br><br>
-    ///////////////////////////////////////////////<br>
-    select highlight start/end time Bar: progressBar2
-    <div class="progressBar2">
-        <div class="timeBar2"></div><br>
+    <!-- anaysis_start : <span class = 'analysisStart'></span><br>
+    anaysis_end : <span class = 'analysisEnd'></span><br><br><br> -->
+    
+    
+    <!-- 분석결과  -->
+    <div class = result id = result>
+        <h3>분석 결과</h3>
+        select highlight start/end time Bar: progressBar2
+        <div class="progressBar2">
+            <div class="timeBar2"></div><br>
+        </div>
+        <!-- <h5>클릭하는 순서대로</h5>
+        <div class = "progressBar3">
+        </div>
+        time_array: <span class="timearray"></span><br>
+        canvas_array: <sapan class = 'caanvasarray'></sapan><br> -->
+        <br>
+
+        <div class = btn>
+            <input type="button" value = 'start time' class = 'start_btn'>
+            <input type="button" value = 'end time' class = 'end_btn'>
+            <input type="button" value = '확인' class = check_btn>
+            <input type="button" value = '수정' class = modify_btn>
+            <input type="button" value = '저장' class = save_btn>
+
+
+        </div>
+        coloring start/end time: progressBar4
+        <div class = "progressBar4">
+            <!-- <div class = 'canvasBar'></div>   -->
+        </div><br>
+            <!-- status : <span class = 'status'></span><br>
+            modify : <span class = 'modify'></span><br>
+            width: <span class ='divwidth'></span><br>   
+            Start time: <span class="starttime"></span><br>
+            End time: <span class = 'endtime'></span><br> -->
+
+            
+            <!-- Video duration: <span class="duration2"></span><br>
+            Maxduration2: <span class = 'maxduration2'></span><br>
+            CurrentPos2: <span class = 'currentPos2'></span><br>
+            Percentage2: <span class = 'percentage2'></span><br> -->
+
+            <!-- Start_time_array: <span class="starttimearray"></span><br>
+            End_time_array: <span class="endtimearray"></span><br>
+            Cansvas position: <span class="canvasposition"></span><br> -->
+            
+        <div class = 'hiddenform'></div>
+        <div class = 'analysis_graph'>
+            분석결과: {{data2.analysis_time}}</div>
+        <!-- <div id="chart1" style="height:300px; width:600px;"></div> -->
+
+        <div id = 'graph' width = '600' height = '110'>
+            <svg width = '600' height = '100' id = svg></svg> 
+        </div>
     </div>
-    <!-- <h5>클릭하는 순서대로</h5>
-    <div class = "progressBar3">
-    </div>
-    time_array: <span class="timearray"></span><br>
-    canvas_array: <sapan class = 'caanvasarray'></sapan><br> -->
-    <br>
 
-    <div class = btn>
-        <input type="button" value = 'start time' class = 'start_btn'>
-        <input type="button" value = 'end time' class = 'end_btn'>
-        <input type="button" value = '확인' class = check_btn>
-        <input type="button" value = '수정' class = modify_btn>
-        <input type="button" value = '저장' class = save_btn>
-
-
-    </div>
-    coloring start/end time: progressBar4
-    <div class = "progressBar4">
-        <!-- <div class = 'canvasBar'></div>   -->
-    </div><br>
-        <!-- status : <span class = 'status'></span><br>
-        modify : <span class = 'modify'></span><br>
-        width: <span class ='divwidth'></span><br>   
-        Start time: <span class="starttime"></span><br>
-        End time: <span class = 'endtime'></span><br> -->
-
-        
-        <!-- Video duration: <span class="duration2"></span><br>
-        Maxduration2: <span class = 'maxduration2'></span><br>
-        CurrentPos2: <span class = 'currentPos2'></span><br>
-        Percentage2: <span class = 'percentage2'></span><br> -->
-
-        <!-- Start_time_array: <span class="starttimearray"></span><br>
-        End_time_array: <span class="endtimearray"></span><br>
-        Cansvas position: <span class="canvasposition"></span><br> -->
-        
-    <div class = 'hiddenform'></div>
-    <div class = 'analysis_graph'>
-        분석결과: {{data2.analysis_time}}</div>
-    <!-- <div id="chart1" style="height:300px; width:600px;"></div> -->
-    <div id="chart1" style = 'height:300px'></div>
-
-    <div class = 'background'>
-        <div class = 'd3graph' width="600" height="100"></div>
-    </div>
-
-    <svg width = '600' height = '500'></svg> 
-
-    <script type = 'text/javascript' src = '/static/js/video_jquery2.js'></script>
+    <script type = 'text/javascript' src = '/static/js/video_jquery.js'></script>
 
 </body>
 </html>
     <!-- https://www.inwebson.com/html5/custom-html5-video-controls-with-jquery/ -->
     <!-- jqplot 예시:http://www.nextree.co.kr/p2461/ -->
     <!-- d3.js: https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js -->
-    <!-- d, select 설명: https://ddiri01.tistory.com/316 -->
+<!-- dj.js 좋은 튜토리얼: https://codelib.tistory.com/5?category=790653 -->
