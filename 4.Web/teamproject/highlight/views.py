@@ -59,7 +59,6 @@ def analysis(request):
 
     context = {'analysis_time': analysis_time,
                 'rate_list': rate_list}
-    # return render(request, 'highlight/video_jquery.html', context)
     return JsonResponse(context)
 
 
@@ -70,7 +69,8 @@ class downloadView(View):
 
     def get(self, request):
         print('reauest', request)
-        return render(request, 'highlight/video_jquery.html')
+        return render(request, 'highlight/2.video_jquery_design.html')
+        # return render(request, 'highlight/video_bagic2.html')
 
     def post(self, request):
         global filename, file
@@ -134,7 +134,8 @@ class uploadView(View):
 
         context= {'data': filename}
 
-        return render(request, 'highlight/video_jquery.html', context)
+        return render(request, 'highlight/2.video_jquery_design.html', context)
+        # return render(request, 'highlight/video_bagic2.html', context)
 
 
 
