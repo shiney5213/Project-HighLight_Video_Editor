@@ -1,0 +1,267 @@
+h3{
+    color: #ccc;
+}
+/*/////////////////////////////////////////////// progress  */
+.progress{
+    /* background: slategray; */
+    height: 100px;
+    width: 600px;
+    overflow: visible;
+    /* background: #f0f0f0; */
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.progressbar-title {
+    font-size: 14px;
+    color: #848484;
+    text-transform: capitalize;
+    position: relative;
+    width:600px;
+    height: 20px;    
+}
+
+.progressBar{
+    border-radius: 7px;
+    position: relative;
+    /* top: 100px; */
+    width: 600px;
+    height: 10px;
+    background-color: slategray;
+}
+
+.progressTimeBar{
+    border-radius: 7px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #ccc;
+}
+
+
+.progressIcon{
+    border-color: royalblue;
+    color:royalblue;
+    width: 10px;
+    height: 10px;
+    line-height: 25px;
+    border-radius: 50px;
+    font-size: 13px;
+    position: absolute;
+    top: -3px;
+    /* right: 0; */
+    background: royalblue;
+    border-width: 3px;
+    border-style: solid;
+}
+
+.progressStartTime, .progressEndTime{
+    font-size: 13px;
+    color:#848484;
+    position: absolute;
+    top:16px;
+}
+.progressStartTime{
+    left:0;
+}
+.progressEndTime{
+    right:0;
+}
+
+/* //////////////////////////////////////////////analysis */
+
+.analysisBarBox{
+    position: relative;
+    width: 600px;
+    height: 20px;
+}
+.analysistimeBar
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #ccc;
+}
+
+.analysisBar
+{
+    position: absolute;
+    /* top: 100px; */
+    width: 600px;
+    height: 5px;
+    background-color: slategray;
+    border-radius: 2px;
+}
+
+.analysisStartIcon, .analysisEndIcon {
+    border-color: royalblue;
+    color:royalblue;
+    width: 10px;
+    height: 10px;
+    line-height: 25px;
+    border-radius: 50px;
+    font-size: 13px;
+    position: absolute;
+    top: -5px;
+    /* right: 0; */
+    background: royalblue;
+    border-width: 3px;
+    border-style: solid;
+    visibility: hidden;
+}
+
+ 
+.analysisColorBar
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: slategray;
+    border-radius: 7px;
+}
+
+
+
+/* ////////////////////////////////////////////////analysis Result */
+
+.result {
+    visibility: hidden;
+    
+}
+
+
+
+/* d3.js */
+#graph, #svg{
+    background-color: #ccc;
+}
+
+#graph{
+    width:600px;
+    height:100px;
+}
+
+#svg{
+    width: 600px;
+    height:100px;
+}
+
+
+/* highlight */
+.higilightBarBox{
+    position: relative;
+    width: 600px;
+    height: 20px;
+}
+
+.highlightBar
+{
+    position: absolute;
+    /* top: 100px; */
+    width: 600px;
+    height: 5px;
+    background-color: slategray;
+    border-radius: 2px;
+}
+.highlightStartIcon, .highlightEndIcon {
+    border-color: royalblue;
+    color:royalblue;
+    width: 10px;
+    height: 10px;
+    line-height: 25px;
+    border-radius: 50px;
+    font-size: 13px;
+    position: absolute;
+    top: -5px;
+    /* right: 0; */
+    background: royalblue;
+    border-width: 3px;
+    border-style: solid;
+    visibility: hidden;
+}
+
+.highlightColorBar
+{
+    position: relative;
+    top: 80px;
+    width: 600px;
+    height: 10px;
+    background-color: black;
+    border-radius: 7px;
+}
+
+
+
+
+.highlightBtn
+{
+    /* background-color: blue; */
+    position: relative;
+    /* top: 250px; */
+}
+
+#canvasBar
+{
+    height: 10px;
+    width: 600px; 
+    position: absolute; 
+    /* background-color: yellow;   */
+    }
+
+#barCanvas
+{
+    height: 10px;
+    width: 600px; 
+    position: absolute; 
+    /* background-color: yellow;   */
+    }
+
+
+
+.progressBar3
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: antiquewhite;
+    border: black solid 2px;
+}
+
+
+
+
+
+.bar {
+    fill: steelblue;
+}
+
+#chart1 {
+    line-height: 15px;
+    margin-bottom: 3px;
+    background-color: grey;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 10px;
+    color: #cfcfcf;
+  }
+
+  
+.background {
+    position: relative;
+    height: 150;
+    width: 650;
+    /* line-height: 15px;
+    margin-bottom: 3px; */
+    background-color: gray;
+  }
+
+.bar {
+    fill: steelblue;
+}
+
