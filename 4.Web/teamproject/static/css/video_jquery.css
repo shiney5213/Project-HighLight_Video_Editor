@@ -1,23 +1,41 @@
-/* play_pause */
-/* .play_pause
-{
+body{
+    /* background: slategray; */
+}
+
+
+h3{
+    colot: #ccc;
+}
+/*/////////////////////////////////////////////// progress  */
+.progress{
+    /* background: slategray; */
+    height: 100px;
+    width: 600px;
+    overflow: visible;
+    /* background: #f0f0f0; */
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.progressbar-title {
+    font-size: 14px;
+    color: #848484;
+    text-transform: capitalize;
     position: relative;
     width:600px;
     height: 20px;    
-} */
-
-.progressBar
-{
-    position: relative;
-    width: 600px;
-    height: 10px;
-    /* top: 5px; */
-    background-color: black;
-    border-radius: 7px;
 }
 
-.timeBar
-{
+.progressBar{
+    border-radius: 7px;
+    position: relative;
+    /* top: 100px; */
+    width: 600px;
+    height: 10px;
+    background-color: slategray;
+}
+
+.progressTimeBar{
     border-radius: 7px;
     position: absolute;
     top: 0;
@@ -27,20 +45,37 @@
     background-color: #ccc;
 }
 
-#progressCircle{
-    fill : royalblue;
-}
 
-
-.progressBar2
-{
-    position: relative;
-    /* top: 100px; */
-    width: 600px;
+.progressIcon{
+    border-color: royalblue;
+    color:royalblue;
+    width: 10px;
     height: 10px;
-    background-color: black;
+    line-height: 25px;
+    border-radius: 50px;
+    font-size: 13px;
+    position: absolute;
+    top: -3px;
+    /* right: 0; */
+    background: royalblue;
+    border-width: 3px;
+    border-style: solid;
 }
 
+.progressStartTime, .progressEndTime{
+    font-size: 13px;
+    color:#848484;
+    position: absolute;
+    top:16px;
+}
+.progressStartTime{
+    left:0;
+}
+.progressEndTime{
+    right:0;
+}
+
+/* ///////////////////////////////////analysis */
 .analysistimeBar
 {
     position: absolute;
@@ -51,30 +86,98 @@
     background-color: #ccc;
 }
 
-
+.analysisBarBox{
+    position: relative;
+    width: 600px;
+    height: 20px;
+}
 .analysisBar
+{
+    position: absolute;
+    /* top: 100px; */
+    width: 600px;
+    height: 5px;
+    background-color: slategray;
+    border-radius: 2px;
+}
+ 
+.analysisColorBar
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: slategray;
+    border-radius: 7px;
+}
+
+
+.analysisStartIcon, .analysisEndIcon {
+    border-color: royalblue;
+    color:royalblue;
+    width: 10px;
+    height: 10px;
+    line-height: 25px;
+    border-radius: 50px;
+    font-size: 13px;
+    position: absolute;
+    top: -5px;
+    /* right: 0; */
+    background: royalblue;
+    border-width: 3px;
+    border-style: solid;
+    visibility: hidden;
+}
+
+
+/* ////////////////////////////////////////////////analysis Result */
+/* d3.js */
+#graph, #svg{
+    background-color: #ccc;
+}
+
+#graph{
+    width:600px;
+    height:100px;
+}
+
+#svg{
+    width: 600px;
+    height:100px;
+}
+
+
+/* highlight */
+.result{
+    position: relative;
+}
+.highlight{
+    position: relative;
+}
+.highlightBar
 {
     position: relative;
     /* top: 100px; */
     width: 600px;
     height: 10px;
-    background-color: black;
-}
-.timeBar2
-{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    background-color: #ccc;
+    background: black;
 }
 
-.btn
+.highlightColorBar
+{
+    position: relative;
+    /* top: 80px; */
+    width: 600px;
+    height: 10px;
+    background-color: antiquewhite;
+    border: black solid 2px;
+}
+
+
+.highlightBtn
 {
     /* background-color: blue; */
     position: relative;
-    /* top: 250px; */
 }
 
 #canvasBar
@@ -92,6 +195,10 @@
     position: absolute; 
     /* background-color: yellow;   */
     }
+
+/* //////////////////////////////////////////// */
+
+
 .progressBar3
 {
     position: relative;
@@ -102,25 +209,6 @@
     border: black solid 2px;
 }
 
-.progressBar4
-{
-    position: relative;
-    /* top: 80px; */
-    width: 600px;
-    height: 10px;
-    background-color: antiquewhite;
-    border: black solid 2px;
-}
- 
-.colorAnalysisBar
-{
-    position: relative;
-    /* top: 80px; */
-    width: 600px;
-    height: 10px;
-    background-color: antiquewhite;
-    border: black solid 2px;
-}
 
 
 
@@ -169,8 +257,7 @@ body {
 
 .result {
     visibility: hidden;
+    
 }
-#graph, #svg{
-    background-color: turquoise;
-}
+
 
