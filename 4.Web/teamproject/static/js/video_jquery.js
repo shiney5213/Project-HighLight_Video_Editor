@@ -16,24 +16,21 @@ $(function(){
     ///////////////////////비디오에서 재생시간 설정
     video.on('loadedmetadata', function() {
         $('.duration').text(video[0].duration);
+        $allDurationTime = video[0].duration;
+        $('.progressStartTime').text(0);
+        $('.progressEndTime').text($allDurationTime);
     });
      
     //update HTML5 video current play time
     video.on('timeupdate', function() {
-        $('.current').text(video[0].currentTime);
-    });
-
-    
-    video.on('timeupdate', function() {
+        // $('.current').text(video[0].currentTime);
         var currentPos = video[0].currentTime; //Get currenttime
         var maxduration = video[0].duration; //Get video duration
-        $allDurationTime = video[0].duration;
         var percentage = 100 * currentPos / maxduration; //in %
-        $('.maxduration').text(maxduration);
-        $('.currentPos').text(currentPos);
-        $('.percentage').text(percentage);
-        $('.timeBar').css('width', percentage+'%');
+        $('.progressTimeBar').css('width', percentage+'%');
+        $('.progressIcon').css('margin-left', ((100 * currentPos-14 )/maxduration)+'%');
         
+    
     });
 
     /////////////////////////// progressBar에서 조작
@@ -55,17 +52,17 @@ $(function(){
     //     }
     // });
     $('.progressBar').on('click', function(e){
-        updatebar(e.pageX);
+        progressUpdateBar(e.pageX);
     });
     
-    
     //update Progress Bar control
-    var updatebar = function(x) {
+    var progressUpdateBar = function(x) {
         alert(x);
         var progress = $('.progressBar');
         var maxduration = video[0].duration; //Video duraiton
         var position = x - progress.offset().left; //Click pos
         var percentage = 100 * position / progress.width();
+        var percentageIcon =100 * (x-7 - progress.offset().left)/progress.width();
     
         //Check within range
         if(percentage > 100) {
@@ -74,19 +71,24 @@ $(function(){
         if(percentage < 0) {
             percentage = 0;
         }
-        //Update progress bar and video currenttime
-        $('.timeBar').css('width', percentage+'%');
-        video[0].currentTime = maxduration * percentage / 100;
-        console.log(maxduration);
+        //start icon 보이게하기
+        alert(percentage);
         console.log(percentage);
-        console.log(maxduration * percentage / 100);
+        // $('.progressIcon').css('margin-left', (percentageIcon)+'%');
+        $('.progressIcon').css('transform-origin', (percentageIcon)+'%');
+
+        //Update progress bar and video currenttime
+        $('.progressTimeBar').css('width', percentage+'%');
+        video[0].currentTime = maxduration * percentage / 100;
+        // video[0].currentTime = 155;
+        
+        // console.log(maxduration);
+        // console.log(percentage);
+        console.log('currentTime'+maxduration * percentage / 100);
     };
 
 
-   
-   
-
-    //////////////////////////analysis start, end control
+    ///////////////////////////////////analysis start, end control
     var $analysisStatus = 'start';
     let $analysis_start_array = [];
     let $analysis_start_array2 = [];
@@ -98,65 +100,25 @@ $(function(){
     var $analysis_end_position2 = [];
     var $resultregion = $('.result');
 
-
      // 버튼
      $('.analysisStartBtn').on('click', function(){
         $analysisStatus = 'start';
-        $allDurationTime = video[0].duration;
+        // $allDurationTime = video[0].duration;
         // alert($analysisStatus);
     });
 
     $('.analysisEndBtn').on('click', function(){
         $analysisStatus = 'end';
-        $allDurationTime = video[0].duration;
+        // $allDurationTime = video[0].duration;
         // alert($analysisStatus);
     });
 
-
     $('.analysisBar').on('click',function(e){
         // alert('click success')
-        $allDurationTime = video[0].duration;
+        // $allDurationTime = video[0].duration;
         $analysisTime(e.pageX);
     });   
-    
-    $('.resetAnalysisBtn').on('click',function(e){
-        $allDurationTime = video[0].duration;
-        //배열 값 업애기,
-        var $analysisStatus = 'start';
-        let $analysis_start_array = [];
-        let $analysis_start_array2 = [];
-        var $analysis_end_array = [];
-        var $analysis_end_array2 = [];
-        var $analysis_start_position = [];
-        var $analysis_start_position2 = [];
-        var $analysis_end_position = [];
-        var $analysis_end_position2 = [];
-        const deleteNode = document.getElementById('barCanvas');
-        deleteNode.remove(deleteNode.firstChild);
-        console.log('start'+$analysis_start_array2)
-        console.log('end'+$analysis_end_array2)
 
-        //result  부분 안보이게 처리
-        $resultregion.css('visibility', 'hidden');
-
-        //result값 모두 초기화
-        var $start_time_array = [];
-        var $start_time_array2 = [];
-        var $end_time_array = [];
-        var $end_time_array2 = [];
-        var $start_position = [];
-        var $start_position2 = [];
-        var $end_position = [];
-        var $end_position2 = [];
-        var $modify = false;
-        var $timeDrag2 = false;
-        var $status ='start' ;
-        const deletegraph = document.getElementById('svg');
-        while(deletegraph.firstChild){
-            deletegraph.removeChild(deletegraph.lastChild);
-        };
-    });  
-    
     var $analysisTime = function(x){
         var $analysisBar = $('.analysisBar');
         var $maxduration4 = video[0].duration; //Video duraiton
@@ -170,7 +132,6 @@ $(function(){
         if($percent4 < 0) {
             $percent4 = 0;
         }
-        
         //start_array
         if($analysisStatus=='start'){
             // alert('start start')
@@ -184,6 +145,10 @@ $(function(){
             $.each($analysis_start_position,function(i,value){
                 if($analysis_start_position2.indexOf(value) == -1 ) $analysis_start_position2.push(value);
             });
+
+            // $('.analysisStartIcon').css('transform-origin', $percent4+'%');
+            $('.analysisStartIcon').css('margin-left', 100 * (x-5 - $analysisBar.offset().left)/$analysisBar.width()+'%');
+            $('.analysisStartIcon').css('visibility','visible');
 
             console.log('start'+$analysis_start_array2)
             
@@ -201,32 +166,71 @@ $(function(){
                 if($analysis_end_position2.indexOf(value) == -1 ) $analysis_end_position2.push(value);
             });
             }
-        
+            //버튼 생기게 하기
+            $('.analysisEndIcon').css('margin-left', 100 * (x-5 - $analysisBar.offset().left)/$analysisBar.width()+'%');
+            $('.analysisEndIcon').css('visibility','visible');
             console.log('end'+$analysis_end_array2)
     
-
         if ($analysis_start_array2.length==$analysis_end_array2.length){
+            console.log('e')
             var $final_len = Number($analysis_start_array2.length)-1;
             var $start =$analysis_start_position2[$final_len] ;
             var $end = $analysis_end_position2[$final_len] ;
             var $div_width = ($end - $start) + '%';
             var $barname = 'analysisBarCanvas'+$final_len;
-            // $('.divwidth').text($div_width)
 
             var $createBar = $('<div></div>',{
-                css: {'background-color':'DarkSalmon',
+                css: {'background-color':'#ccc',
                     'margin-left' : $start  + '%',
                     'width': $div_width,
                     },
                 class: $barname,
                 id: 'barCanvas',
                 })
-            $('.colorAnalysisBar').append($createBar)
+            $('.analysisColorBar').append($createBar)
         };
     };
+    
 
 
-    // var svg = document.getElementById("svg");
+
+    $('.resetAnalysisBtn').on('click',function(e){
+        // $allDurationTime = video[0].duration;
+        //배열 값 업애기,
+        $analysis_start_array = [];
+        $analysis_start_array2 = [];
+        $analysis_end_array = [];
+        $analysis_end_array2 = [];
+        $analysis_start_position = [];
+        $analysis_start_position2 = [];
+        $analysis_end_position = [];
+        $analysis_end_position2 = [];
+        const deleteNode = document.getElementById('barCanvas');
+        deleteNode.remove(deleteNode.firstChild);
+        
+        //result 부분 안보이게 처리
+        $resultregion.css('visibility', 'hidden');
+
+        //result값 모두 초기화
+        $start_time_array = [];
+        $start_time_array2 = [];
+        $end_time_array = [];
+        $end_time_array2 = [];
+        $start_position = [];
+        $start_position2 = [];
+        $end_position = [];
+        $end_position2 = [];
+        $modify = false;
+        $timeDrag2 = false;
+        $status ='start' ;
+        const deletegraph = document.getElementById('svg');
+        while(deletegraph.firstChild){
+            deletegraph.removeChild(deletegraph.lastChild);
+        };
+    });  
+    
+    
+
     var $svg = $('#svg');
     var $graph = $('#graph');
     $('.pleaseAnalysis').on('click', function(){
@@ -265,7 +269,6 @@ $(function(){
         $resultregion.css('visibility', 'visible');
 
     });
-
 
 
  /////////////////////////highlight start, end time control
@@ -327,7 +330,7 @@ $(function(){
              class: $barname,
              id: 'barCanvas',
              })
-         $('.progressBar4').append($createBar)
+         $('.highlightBar').append($createBar)
      }
      
      if($start_time_array2.length > $start_time_array2.length  && !$modify){
@@ -338,8 +341,8 @@ $(function(){
      };
  });
 
+///////form 태그를 안보이게 만들고 post방식으로 보내기
  $('.save_btn').on('click', function(){
-     //form 태그 만들고 post방식으로 보내기
      //정보 넘기기
     
      function post_to_url(params){
@@ -367,6 +370,7 @@ $(function(){
      //자동으로 submit하기
      document.hiddenform.submit();
  });
+
  var $updatebar3 = function(x) {
      $('.status').text($status);
      $('.modify').text($modify);
@@ -398,7 +402,9 @@ $(function(){
          });
  
          //배열 값 표시
-         $('.starttime').text($start_time_array2)
+        //  $('.starttime').text($start_time_array2)
+         console.log('highlight start' +$start_time_array2);
+
      };
  
      if($status=='end' && !$modify){
@@ -414,11 +420,13 @@ $(function(){
          });
  
          //배열 값 표시
-         $('.endtime').text($end_time_array2)
+         console.log('highlight end' +$end_time_array2);
      };
-     // $('.timeBar2').css('width', $percentage+'%');
  };
 
+
+
+ ////////////////해야 함.
  var $modifytime = function(x) {
      var $progress4 = $('.progressBar2');
      var $maxduration4 = video[0].duration; //Video duraiton
