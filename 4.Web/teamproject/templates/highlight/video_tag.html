@@ -1,35 +1,25 @@
-<!DOCTYPE html>
-<html lang = 'en'>
+<html> 
 <head>
-	<meta charset = 'UTF-8'>
-    <title>HighLight</title>
-
     <link rel="shortcut icon" href="../../static/images/icons/favicon.ico">
-	<link rel="stylesheet"  type = 'text/css' href="/static/css/video_jquery.css">
 
-    <!-- jquery -->
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script> -->
-    
+</head>
+<body> 
 
-    <!-- d3.js -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <script src="https://d3js.org/d3.v4.js"></script> -->
-    <!-- <script src = "https://d3js.org/d3.v5.min.js"> </script> -->
+<video width="400" controls>
+  <source src="../static/highlight/save/{{data}}" type="video/mp4">
+  <!-- <source src="../../static/highlight/test_news.mp4" type="video/mp4"> -->
 
-</head> 
+  <!-- <source src="../static/highlight/save/{{data}}" type="video/mp4"> -->
+  <!-- <source src="../static/highlight/save/{{data}}" type="video/ogg"> -->
+  Your browser does not support HTML video.
+</video>
 
-<body>
-    <video id="myVideo" preload="auto" controls poster="../../static/highlight/wait.png" width="600" height="400" autoplay>
-        <source src="../static/highlight/save/{{data}}" type="video/mp4" />
-        <source src="../static/highlight/save/{{data}}" type="video/webM" />
-        <source src="../static/highlight/save/{{data}}" type="video/ogg" />
-        <p>Your browser does not support the video tag.</p>
-    </video>
-    
-</body>
+<p>
+Video courtesy of 
+<a href="https://www.bigbuckbunny.org/" target="_blank">Big Buck Bunny</a>.
+</p>
+
+</body> 
 </html>
-    <!-- https://www.inwebson.com/html5/custom-html5-video-controls-with-jquery/ -->
-    <!-- jqplot 예시:http://www.nextree.co.kr/p2461/ -->
-    <!-- d3.js: https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js -->
-<!-- dj.js 좋은 튜토리얼: https://codelib.tistory.com/5?category=790653 -->
+
+
