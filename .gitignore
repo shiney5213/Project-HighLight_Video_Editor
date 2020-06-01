@@ -30,7 +30,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 6.Data_Analysis/image/*
-/ffmpeg-20200513-b12b053-win64-static/*
+6.Data_Analysis/ffmpeg-20200513-b12b053-win64-static/*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
