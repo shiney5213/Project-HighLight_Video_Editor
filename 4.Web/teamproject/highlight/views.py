@@ -12,6 +12,8 @@ import cv2
 from . import apps
 import shutil
 import random
+from .dataAnalysis import preprocessing
+import datetime
 
 global filename
 
@@ -57,6 +59,15 @@ def analysis(request):
     rate_list = [random.random() for i in range(int(analysis_time))]
     print(len(rate_list), rate_list[0])
 
+    analysisstarttime = int(float(analysis_start_list[0]))
+    analysisstarttime = str(datetime.timedelta(seconds=analysisstarttime))
+    analysisendtime = int(float(analysis_end_list[0]))
+    analysisendtime = str(datetime.timedelta(seconds=analysisendtime))
+    print('시간 ', analysisstarttime, analysisendtime)
+    result = preprocessing.main(analysisstarttime, analysisendtime, filename)
+
+    print(result)
+
     context = {'analysis_time': analysis_time,
                 'rate_list': rate_list}
     return JsonResponse(context)
@@ -69,8 +80,8 @@ class downloadView(View):
 
     def get(self, request):
         print('reauest', request)
-        return render(request, 'highlight/2.video_jquery_design.html')
-        # return render(request, 'highlight/video_bagic2.html')
+        return render(request, 'highlight/3.video_jquery_model.html')
+        # return render(request, 'highlight/video_tag.html')
 
     def post(self, request):
         global filename, file
@@ -87,8 +98,8 @@ class downloadView(View):
         # crop 처리
         crop_filename = filename.replace('.mp4', '_2.mp4')
 
-        old_path = settings.BASE_DIR + f'/static/highlight/save/{filename}'
-        new_path = settings.BASE_DIR + f'/static/highlight/save/{crop_filename}'
+        old_path = settings.BASE_DIR + f'/static/highlight/video/{filename}'
+        new_path = settings.BASE_DIR + f'/static/highlight/video/{crop_filename}'
         # shutil.copy(old_path, new_path)
 
         clip_list = []
@@ -109,7 +120,8 @@ class downloadView(View):
 # 파일 upload + file 저장 + file 이름 보내기
 class uploadView(View):
     def get(self, request):
-        return render(request, 'highlight/upload.html')
+        # return render(request, 'highlight/upload.html')
+        return render(request, 'highlight/1.upload_design.html')
 
     def post(self, request):
         global filename
@@ -124,7 +136,7 @@ class uploadView(View):
             if file == '':
                 return HttpResponse('file을 다시 upload해주세요')
             else:
-                fp = open(settings.BASE_DIR + f'/static/highlight/save/{filename}' , 'wb')
+                fp = open(settings.BASE_DIR + f'/static/highlight/video/{filename}' , 'wb')
                 for chunk in file.chunks():
                     fp.write(chunk)
                 fp.close()
@@ -134,8 +146,8 @@ class uploadView(View):
 
         context= {'data': filename}
 
-        return render(request, 'highlight/2.video_jquery_design.html', context)
-        # return render(request, 'highlight/video_bagic2.html', context)
+        return render(request, 'highlight/3.video_jquery_model.html', context)
+        # return render(request, 'highlight/video_tag.html', context)
 
 
 
