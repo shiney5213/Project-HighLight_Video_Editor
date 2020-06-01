@@ -1,6 +1,7 @@
 $(function(){
     var video = $('#myVideo');
     var $allDurationTime;
+    $('#myVideo.main.content').css('z-index', -1);
 
     ////////////////////play, pause기능
     $('.btnPlay').on('click', function(){ 
@@ -72,8 +73,8 @@ $(function(){
             percentage = 0;
         }
         //start icon 보이게하기
-        alert(percentage);
-        console.log(percentage);
+        // alert(percentage);
+        // console.log(percentage);
         // $('.progressIcon').css('margin-left', (percentageIcon)+'%');
         $('.progressIcon').css('transform-origin', (percentageIcon)+'%');
 
@@ -84,7 +85,7 @@ $(function(){
         
         // console.log(maxduration);
         // console.log(percentage);
-        console.log('currentTime'+maxduration * percentage / 100);
+        // console.log('currentTime'+maxduration * percentage / 100);
     };
 
 
@@ -146,11 +147,10 @@ $(function(){
                 if($analysis_start_position2.indexOf(value) == -1 ) $analysis_start_position2.push(value);
             });
 
-            // $('.analysisStartIcon').css('transform-origin', $percent4+'%');
             $('.analysisStartIcon').css('margin-left', 100 * (x-5 - $analysisBar.offset().left)/$analysisBar.width()+'%');
             $('.analysisStartIcon').css('visibility','visible');
 
-            console.log('start'+$analysis_start_array2)
+            // console.log('start'+$analysis_start_array2)
             
         };
     
@@ -169,10 +169,9 @@ $(function(){
             //버튼 생기게 하기
             $('.analysisEndIcon').css('margin-left', 100 * (x-5 - $analysisBar.offset().left)/$analysisBar.width()+'%');
             $('.analysisEndIcon').css('visibility','visible');
-            console.log('end'+$analysis_end_array2)
+            // console.log('end'+$analysis_end_array2)
     
         if ($analysis_start_array2.length==$analysis_end_array2.length){
-            console.log('e')
             var $final_len = Number($analysis_start_array2.length)-1;
             var $start =$analysis_start_position2[$final_len] ;
             var $end = $analysis_end_position2[$final_len] ;
@@ -191,8 +190,6 @@ $(function(){
         };
     };
     
-
-
 
     $('.resetAnalysisBtn').on('click',function(e){
         // $allDurationTime = video[0].duration;
@@ -227,6 +224,11 @@ $(function(){
         while(deletegraph.firstChild){
             deletegraph.removeChild(deletegraph.lastChild);
         };
+        //icon 안보이게 하기
+        $('.analysisStartIcon').css('visibility', 'hidden');
+        $('.analysisEndIcon').css('visibility', 'hidden');
+        $('.highlightStartIcon').css('visibility', 'hidden');
+        $('.highlightEndIcon').css('visibility', 'hidden');
     });  
     
     
@@ -271,181 +273,163 @@ $(function(){
     });
 
  /////////////////////////highlight start, end time control
- var $start_time_array = [];
- var $start_time_array2 = [];
- var $end_time_array = [];
- var $end_time_array2 = [];
- var $start_position = [];
- var $start_position2 = [];
- var $end_position = [];
- var $end_position2 = [];
- var $modify = false;
- var $timeDrag2 = false;
- var $status ='start' ;
+    var $start_time_array = [];
+    var $start_time_array2 = [];
+    var $end_time_array = [];
+    var $end_time_array2 = [];
+    var $start_position = [];
+    var $start_position2 = [];
+    var $end_position = [];
+    var $end_position2 = [];
+    var $modify = false;
+    var $timeDrag2 = false;
+    var $status ='start' ;
 
- $('.start_btn').on('click', function(){
-     $status = 'start';
-     $modify = false;
-     $modifystatus();
- });
+    $('.start_btn').on('click', function(){
+        $status = 'start';
+        $modify = false;
+        $modifystatus();
+    });
 
- $('.end_btn').on('click', function(){
-     $status = 'end';
-     $modify = false;   
-     $modifystatus();
- });
+    $('.end_btn').on('click', function(){
+        $status = 'end';
+        $modify = false;   
+        $modifystatus();
+    });
 
- $('.modify_btn').on('click', function(){
-     $modify= true;
-     $modifystatus();
- });
+    $('.modify_btn').on('click', function(){
+        $modify= true;
+        $modifystatus();
+    });
+    
 
- $('.check_btn').on('click', function(){ 
-     alert('click')
- 
-     //오름차순
-     $start_time_array2.sort(function(a, b){
-         return a - b;
-     });
-     $end_time_array2.sort(function(a, b){
-         return a - b;
-     });
-     $('.starttimearray').text($start_time_array2.length)
-     $('.endtimearray').text($end_time_array2.length)
+    $('.check_btn').on('click', function(){ 
+    
+        //오름차순
+        $start_time_array2.sort(function(a, b){
+            return a - b;
+        });
+        $end_time_array2.sort(function(a, b){
+            return a - b;
+        });
+        $('.starttimearray').text($start_time_array2.length)
+        $('.endtimearray').text($end_time_array2.length)
 
 
-     if ($start_time_array2.length == $start_time_array2.length && $modify==false){
-         var $final_len = Number($start_time_array2.length)-1;
-         var $start =$start_position2[$final_len] ;
-         var $end = $end_position2[$final_len] ;
-         var $div_width = ($end - $start) + '%';
-         var $barname = 'barCanvas'+$final_len;
-         $('.divwidth').text($div_width)
+        if ($start_time_array2.length == $start_time_array2.length && $modify==false){
+            var $final_len = Number($start_time_array2.length)-1;
+            var $start =$start_position2[$final_len] ;
+            var $end = $end_position2[$final_len] ;
+            var $div_width = ($end - $start) + '%';
+            var $barname = 'barCanvas'+$final_len;
+            $('.divwidth').text($div_width)
 
-         var $createBar = $('<div></div>',{
-             css: {'background-color':'DarkSalmon',
-                 'margin-left' : $start  + '%',
-                 'width': $div_width,
-                 },
-             class: $barname,
-             id: 'barCanvas',
-             })
-         $('.highlightColorBar').append($createBar)
+            var $createBar = $('<div></div>',{
+                css: {'background-color':'#cccccc',
+                    'margin-left' : $start  + '%',
+                    'width': $div_width,
+                    },
+                class: $barname,
+                id: 'barCanvas',
+                })
+            $('.highlightColorBar').append($createBar)
+            
+
+        }
         
+        if($start_time_array2.length > $start_time_array2.length  && !$modify){
+            alert('start 지점을 추가하세요');
+        };
+        if($start_time_array2.length < $start_time_array2.length  && !$modify){
+            alert('end 지점을 추가하세요');
+        };
+    });
 
-     }
-     
-     if($start_time_array2.length > $start_time_array2.length  && !$modify){
-         alert('start 지점을 추가하세요');
-     };
-     if($start_time_array2.length < $start_time_array2.length  && !$modify){
-         alert('end 지점을 추가하세요');
-     };
- });
+    ///////form 태그를 안보이게 만들고 post방식으로 보내기
+    $('.save_btn').on('click', function(){
+        //정보 넘기기
+        function post_to_url(params){
+            // method = meghod||'post';
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', 'download');
+            form.setAttribute('id', 'hiddenform');
+            form.setAttribute('name', 'hiddenform');
 
-///////form 태그를 안보이게 만들고 post방식으로 보내기
- $('.save_btn').on('click', function(){
-     //정보 넘기기
-     function post_to_url(params){
-         // method = meghod||'post';
-         var form = document.createElement('form');
-         form.setAttribute('method', 'post');
-         form.setAttribute('action', 'download');
-         form.setAttribute('id', 'hiddenform');
-         form.setAttribute('name', 'hiddenform');
+            $('.hiddenform').append(form);
 
-         $('.hiddenform').append(form);
+            for(var key in params){
+                var hiddenField = document.createElement('input');
+                hiddenField.setAttribute('type', 'hidden');
+                hiddenField.setAttribute('name', key);
+                hiddenField.setAttribute('value', params[key]);
+                form.appendChild(hiddenField);
+            }
+        }
 
-         for(var key in params){
-             var hiddenField = document.createElement('input');
-             hiddenField.setAttribute('type', 'hidden');
-             hiddenField.setAttribute('name', key);
-             hiddenField.setAttribute('value', params[key]);
-             form.appendChild(hiddenField);
-         }
-     }
+        post_to_url({'startarray': $start_time_array2,
+                    'endarray': $end_time_array2});
 
-     post_to_url({'startarray': $start_time_array2,
-                 'endarray': $end_time_array2});
+        //자동으로 submit하기
+        document.hiddenform.submit();
+    });
 
-     //자동으로 submit하기
-     document.hiddenform.submit();
- });
+    var $highlightUpdate = function(x) {
+        var $highlightBar = $('.highlightBar');
+        var $maxduration3 = video[0].duration; //Video duraiton
+        var $position3 = x - $highlightBar.offset().left; //Click pos
+        var $percent3 = 100 * $position3 / $highlightBar.width();
+        
+        //Check within range
+        if($percent3 > 100) {
+            $percent3 = 100;
+        }
+        if($percent3 < 0) {
+            $percent3 = 0;
+        }
 
- var $highlightUpdate = function(x) {
-     var $highlightBar = $('.highlightBar');
-     var $maxduration3 = video[0].duration; //Video duraiton
-     var $position3 = x - $highlightBar.offset().left; //Click pos
-     var $percent3 = 100 * $position3 / $highlightBar.width();
-     
-     //Check within range
-     if($percent3 > 100) {
-         $percent3 = 100;
-     }
-     if($percent3 < 0) {
-         $percent3 = 0;
-     }
-     
-     //start_array
-     if($status=='start' && !$modify){
-         $start_time_array.push($maxduration3 * $percent3 / 100);
-         $start_position.push($percent3);
- 
-         //배열에 같은 값 제거
-         $.each($start_time_array,function(i,value){
-             if($start_time_array2.indexOf(value) == -1 ) $start_time_array2.push(value);
-         });
-         $.each($start_position,function(i,value){
-             if($start_position2.indexOf(value) == -1 ) $start_position2.push(value);
-         });
- 
-         //배열 값 표시
-        //  $('.starttime').text($start_time_array2)
-         console.log('highlight start' +$start_time_array2);
-         $('.highlightStartIcon').css('margin-left', 100 * (x-5 - $highlightBar.offset().left)/$highlightBar.width()+'%');
-         $('.highlightStartIcon').css('visibility','visible');
+        //start_array
+        if($status=='start' && !$modify){
+            $start_time_array.push($maxduration3 * $percent3 / 100);
+            $start_position.push($percent3);
+    
+            //배열에 같은 값 제거
+            $.each($start_time_array,function(i,value){
+                if($start_time_array2.indexOf(value) == -1 ) $start_time_array2.push(value);
+            });
+            $.each($start_position,function(i,value){
+                if($start_position2.indexOf(value) == -1 ) $start_position2.push(value);
+            });
+    
+            //start icon 보이게하기
+            $('.highlightStartIcon').css('visibility','visible');
+            $('.highlightStartIcon').css('margin-left', (100 * (x-19 - $highlightBar.offset().left)/$highlightBar.width()+'%'));
 
-     };
- 
-     if($status=='end' && !$modify){
-         $end_time_array.push($maxduration3 * $percent3 / 100);
-         $end_position.push($percent3);
- 
-         //배열에 같은 값 제거
-         $.each($end_time_array,function(i,value){
-             if($end_time_array2.indexOf(value) == -1 ) $end_time_array2.push(value);
-         });
-         $.each($end_position,function(i,value){
-             if($end_position2.indexOf(value) == -1 ) $end_position2.push(value);
-         });
- 
-         //배열 값 표시
-         console.log('highlight end' +$end_time_array2);
-         $('.highlightEndcon').css('margin-left', 100 * (x-5 - $highlightBar.offset().left)/$highlightBar.width()+'%');
-         $('.highlightEndIcon').css('visibility','visible');
-         $('highlightEndIcon').css('color', 'red');
-     };
- };
+        };
+    
+        if($status=='end' && !$modify){
+            $end_time_array.push($maxduration3 * $percent3 / 100);
+            $end_position.push($percent3);
+    
+            //배열에 같은 값 제거
+            $.each($end_time_array,function(i,value){
+                if($end_time_array2.indexOf(value) == -1 ) $end_time_array2.push(value);
+            });
+            $.each($end_position,function(i,value){
+                if($end_position2.indexOf(value) == -1 ) $end_position2.push(value);
+            });
+    
+            //end icon 보이게 하기
+            $('.highlightEndIcon').css('margin-left', 100 * (x-30 - $highlightBar.offset().left)/$highlightBar.width()+'%');
+            $('.highlightEndIcon').css('visibility','visible');
+        };
+        console.log('highlight start', $start_time_array2)
+        console.log('highlight end', $end_time_array2)
+
+    };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- ////////////////해야 함.
+ ////////////////수정
  var $modifytime = function(x) {
      var $progress4 = $('.highlightBar');
      var $maxduration4 = video[0].duration; //Video duraiton
