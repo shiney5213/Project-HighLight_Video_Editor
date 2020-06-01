@@ -1,6 +1,11 @@
 h3{
     color: #ccc;
 }
+
+#myVideo.main.content{
+    z-index: -1;
+}
+
 /*/////////////////////////////////////////////// progress  */
 .progress{
     /* background: slategray; */
@@ -153,6 +158,9 @@ h3{
 
 
 /* highlight */
+.highllight{
+    position: relative;
+}
 .higilightBarBox{
     position: relative;
     width: 600px;
@@ -168,15 +176,16 @@ h3{
     background-color: slategray;
     border-radius: 2px;
 }
-.highlightStartIcon, .highlightEndIcon {
+
+.highlightStartIcon {
     border-color: royalblue;
     color:royalblue;
     width: 10px;
     height: 10px;
-    line-height: 25px;
+    /* line-height: 25px; */
     border-radius: 50px;
     font-size: 13px;
-    position: absolute;
+    position: relative;
     top: -5px;
     /* right: 0; */
     background: royalblue;
@@ -185,24 +194,38 @@ h3{
     visibility: hidden;
 }
 
+
+.highlightEndIcon {
+    border-color: royalblue;
+    color:royalblue;
+    width: 10px;
+    height: 10px;
+    /* line-height: 25px; */
+    border-radius: 50px;
+    font-size: 13px;
+    position: relative;
+    top: -20px;
+    /* right: 0; */
+    background: royalblue;
+    border-width: 3px;
+    border-style: solid;
+    visibility: hidden;
+}
 .highlightColorBar
 {
     position: relative;
-    top: 80px;
+    top: -10px;
     width: 600px;
     height: 10px;
-    background-color: black;
+    background-color: slategray;
     border-radius: 7px;
 }
-
-
-
 
 .highlightBtn
 {
     /* background-color: blue; */
     position: relative;
-    /* top: 250px; */
+    /* top: 50px; */
 }
 
 #canvasBar
@@ -222,7 +245,7 @@ h3{
     }
 
 
-
+/* 
 .progressBar3
 {
     position: relative;
@@ -231,9 +254,7 @@ h3{
     height: 10px;
     background-color: antiquewhite;
     border: black solid 2px;
-}
-
-
+} */
 
 
 
@@ -261,7 +282,4 @@ h3{
     background-color: gray;
   }
 
-.bar {
-    fill: steelblue;
-}
 
