@@ -21,9 +21,11 @@
 
 <body>
     <video id="myVideo" autoplay controls poster="../../static/highlight/wait.png" width="600" height="400" autoplay>
+        <!-- <source src="../static/highlight/{{dirname}}/{{filename}}" type="video/mp4" /> -->
         <source src="../static/highlight/save/{{data}}" type="video/mp4" />
-        <!-- <source src="../static/highlight/save/{{data}}" type="video/webM" /> -->
-        <source src="../static/highlight/save/{{data}}" type="video/ogg" />
+
+        <source src="../static/highlight/save/{{data}}" type="video/webM" />
+        <!-- <source src="../static/highlight/{{data.dir_name}}/{{data}}" type="video/ogg" /> -->
         <p>Your browser does not support the video tag.</p>
     </video>
     
@@ -109,7 +111,7 @@
             
         </div>
 
-    <script type = 'text/javascript' src = '/static/js/2.video_jquery_design.js'></script>
+    <script type = 'text/javascript' src = '/static/js/3.video_jquery_model.js'></script>
 
 </body>
 </html>
