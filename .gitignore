@@ -33,6 +33,12 @@ MANIFEST
 6.Data_Analysis/image/*
 6.Data_Analysis/ffmpeg-20200513-b12b053-win64-static/*
 
+ffmpeg-20200513-b12b053-win64-static/*
+image/*
+audio/*
+video/*
+data/*
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
