@@ -13,7 +13,9 @@ from . import apps
 import shutil
 import random
 from .dataAnalysis import preprocessing
+from .dataAnalysis import modelpredict
 import datetime
+import os
 
 global filename
 
@@ -55,20 +57,31 @@ def analysis(request):
     analysis_time = int(float(analysis_end_list[0])-float(analysis_start_list[0]))
     print('time',analysis_time, type(analysis_time))
 
-    # 임의로 확률값 결정
-    rate_list = [random.random() for i in range(int(analysis_time))]
-    print(len(rate_list), rate_list[0])
-
     analysisstarttime = int(float(analysis_start_list[0]))
     analysisstarttime = str(datetime.timedelta(seconds=analysisstarttime))
     analysisendtime = int(float(analysis_end_list[0]))
     analysisendtime = str(datetime.timedelta(seconds=analysisendtime))
     print('시간 ', analysisstarttime, analysisendtime)
-    result = preprocessing.main(analysisstarttime, analysisendtime, filename)
 
+
+    # 임의로 확률값 결정
+    # rate_list = [random.random() for i in range(int(analysis_time))]
+    # print(len(rate_list), rate_list[0])
+
+
+
+    #preprocessing 
+
+    ddf = preprocessing.main(analysisstarttime, analysisendtime, filename)
+    result = modelpredict.modelpre( ddf, filename)
     print(result)
 
-    context = {'analysis_time': analysis_time,
+    rate_list = result['probability'].tolist()
+    rate_list = [0]*20 + rate_list
+
+
+    # context = {'analysis_time': analysis_time,
+    context = {'analysis_time': len(rate_list),
                 'rate_list': rate_list}
     return JsonResponse(context)
 
@@ -136,14 +149,35 @@ class uploadView(View):
             if file == '':
                 return HttpResponse('file을 다시 upload해주세요')
             else:
-                fp = open(settings.BASE_DIR + f'/static/highlight/video/{filename}' , 'wb')
+
+                # 폴더 만들기
+                make_dir = filename.replace('.mp4', '')
+                
+                video_root =f"./static/highlight/{make_dir}/video/" 
+               
+                try:
+                    os.makedirs(f'./static/highlight/{make_dir}')
+                except Exception as err:
+                    print(err)
+                try:
+                    os.makedirs(video_root)
+                except Exception as err:
+                    print(err)
+               
+
+                fp = open(settings.BASE_DIR + f'/static/highlight/{make_dir}/video/{filename}' , 'wb')
+                for chunk in file.chunks():
+                    fp.write(chunk)
+                fp.close()
+
+                fp = open(settings.BASE_DIR + f'/static/highlight/save/{filename}' , 'wb')
                 for chunk in file.chunks():
                     fp.write(chunk)
                 fp.close()
 
         except:
             filename = request.POST['filename']
-
+        # context= {'filename': filename, 'dirname': make_dir}
         context= {'data': filename}
 
         return render(request, 'highlight/3.video_jquery_model.html', context)
