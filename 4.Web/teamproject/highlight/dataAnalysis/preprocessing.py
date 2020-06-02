@@ -96,11 +96,11 @@ def sound2data(file_name, starttime, endtime):  # file_name은 디렉토리까�
     voice.drop(['second'], axis='columns', inplace=True)  # second 컬럼 삭제hh
     return voice
 
-def detect_text(photo, bucket):
+def detect_text(photo, args):
     client = boto3.client('rekognition',
-                          aws_access_key_id=AWS_ACCESS_KEY_ID,
-                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-                          region_name=AWS_DEFAULT_REGION
+                          aws_access_key_id=args['AWS_ACCESS_KEY_ID'],
+                          aws_secret_access_key=args['AWS_SECRET_ACCESS_KEY'],
+                          region_name=args['AWS_DEFAULT_REGION']
                           )
 
     height = 1
@@ -108,7 +108,7 @@ def detect_text(photo, bucket):
     top = 0
     width = 0.34
 
-    response = client.detect_text(Image={'S3Object': {'Bucket': bucket_name, 'Name': photo}},
+    response = client.detect_text(Image={'S3Object': {'Bucket': args['bucket_name'], 'Name': photo}},
                                   Filters={'RegionsOfInterest': [
                                       {'BoundingBox': {'Height': height, 'Left': left, 'Top': top, 'Width': width}}]})
 
@@ -128,14 +128,14 @@ def detect_text(photo, bucket):
         return [np.nan, np.nan, np.nan, np.nan]
 
 # Analyzing the emotion from a face.
-def detect_faces(photo, bucket):
+def detect_faces(photo, args):
     client = boto3.client('rekognition',
-                          aws_access_key_id=AWS_ACCESS_KEY_ID,
-                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-                          region_name=AWS_DEFAULT_REGION
+                          aws_access_key_id=args['AWS_ACCESS_KEY_ID'],
+                          aws_secret_access_key=args['AWS_SECRET_ACCESS_KEY'],
+                          region_name=args['AWS_DEFAULT_REGION']
                           )
 
-    response = client.detect_faces(Image={'S3Object': {'Bucket': bucket, 'Name': photo}}, Attributes=['ALL'])
+    response = client.detect_faces(Image={'S3Object': {'Bucket': args['bucket_name'], 'Name': photo}}, Attributes=['ALL'])
     try:
         emotions = response['FaceDetails'][0]['Emotions']
 
@@ -171,13 +171,21 @@ def makeimage(frame):
 
 # Processing a dynamic image.(Using detect_text, detect_faces)
 # 영상 1초단위로 쪼개고 버켓에 업로드
-def process(file, starttime, endtime):
-    file =  file
+def process(args):
+    file =  args['filename']
 
+    s3 = boto3.client('s3',
+                    aws_access_key_id=args['AWS_ACCESS_KEY_ID'],
+                    aws_secret_access_key=args['AWS_SECRET_ACCESS_KEY'],
+                    region_name=args['AWS_DEFAULT_REGION']
+                    )
+
+
+    
     cap = cv2.VideoCapture(file)
 
-    starttime = starttime
-    endtime = endtime
+    starttime = args['starttime']
+    endtime = args['endtime']
 
     timemsec = time_msec(starttime)
     cap.set(cv2.CAP_PROP_POS_MSEC, timemsec)
@@ -186,28 +194,26 @@ def process(file, starttime, endtime):
     datalist = []
     while (cap.isOpened):
         i += 1
-        print(i)
         ret, frame = cap.read()
-        print('ret', ret, frame)
         if ret:
-            print('yes')
-
+            print(i)
             # 사진 자르고 합치기
             frame = makeimage(frame)
 
             # 사진 파일 로컬에 저장
             fn = file[-13:-4] + '_' + str(i) + '.jpg'
-            cv2.imwrite('./image/' + fn, frame)
+            img_root = args['image_root']
+            cv2.imwrite(f'{img_root}/{fn}', frame)
 
             # 사진 파일 bucket에 저장
-            with open('./image/' + fn, 'rb') as f:
-                s3.upload_fileobj(f, bucket_name, fn)
+            with open(f'{img_root}/{fn}', 'rb') as f:
+                s3.upload_fileobj(f, args['bucket_name'], fn)
 
             # OCR face API 사용
             photo = fn
 
-            text = detect_text(photo, bucket_name)
-            face = detect_faces(photo, bucket_name)
+            text = detect_text(photo, args)
+            face = detect_faces(photo,args)
             vid_time = [cap.get(cv2.CAP_PROP_POS_MSEC)]
 
             data = text + face + vid_time
@@ -226,24 +232,29 @@ def process(file, starttime, endtime):
     return datalist
 
 def main(starttime ='01:00:00' , endtime =  '01:01:00', filename = '20200506_Faker_612874923.mp4' ):
-    
-    AWS_ACCESS_KEY_ID = 'AKIAS3UCLIDDHDXHMWOZ'
-    AWS_SECRET_ACCESS_KEY = 'RUsIGlGgRRguaXUaCnUVRR+UPKXcY1a0g7EsqpNI'
-    AWS_DEFAULT_REGION = 'ap-northeast-2'
-    bucket_name = 'eyshin'
 
-    s3 = boto3.client('s3',
-                    aws_access_key_id=AWS_ACCESS_KEY_ID,
-                    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-                    region_name=AWS_DEFAULT_REGION
-                    )
     
+     # 폴더 만들기
+    make_dir = filename.replace('mp4', '')               
 
-    video_root ="../../static/highlight/video/" 
-    audio_root ="../../static/highlight/audio/" 
-    # data_root ="../../static/highlight/data/" 
-    data_root ="" 
-    
+
+    audio_root =f"./static/highlight/{make_dir}/audio/" 
+    data_root =f"./static/highlight/{make_dir}/data/" 
+    image_root =f"./static/highlight/{make_dir}/image/" 
+    video_root =f"./static/highlight/{make_dir}/video/" 
+
+    try:
+        os.makedirs(audio_root)
+    except Exception as err:
+        print(err)
+    try:
+        os.makedirs(data_root)
+    except Exception as err:
+        print(err)    
+    try:
+        os.makedirs(image_root)
+    except Exception as err:
+        print(err)    
     
     alltime_list = [[[str(starttime), str(endtime) ]]]
 
@@ -254,8 +265,25 @@ def main(starttime ='01:00:00' , endtime =  '01:01:00', filename = '20200506_Fak
 
     starttime = alltime_list[0][0][0]
     endtime = alltime_list[0][0][1]
+    
 
-    datalist = process(file_mp4, starttime, endtime)
+
+    args = {'filename': file_mp4,
+            'starttime': starttime,
+            'endtime': endtime,
+            'image_root': image_root,
+            'AWS_ACCESS_KEY_ID' : 'AKIAS3UCLIDDHDXHMWOZ',
+            'AWS_SECRET_ACCESS_KEY' : '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',
+            'AWS_DEFAULT_REGION' : 'ap-northeast-2',
+            'bucket_name' : 'eyshin',
+            'image_root': image_root,
+            'video_root': video_root,
+            'data_root': data_root,
+            'audio_root': audio_root,
+            }
+
+    
+    datalist = process(args)
     print('datalist',len(datalist))
     with open(data_root + 'datalist.txt', 'wb') as f:
         pickle.dump(datalist, f)
@@ -323,7 +351,18 @@ def main(starttime ='01:00:00' , endtime =  '01:01:00', filename = '20200506_Fak
     dff['sup'] = df[10]
     dff['conf'] = df[11]
 
-    dff.to_excel(data_root + 'dff.xlsx')
+    # sound data
+    AudioSegment.converter = "./static/highlight/ffmpeg-20200513-b12b053-win64-static/bin/ffmpeg.exe"
+    AudioSegment.ffmpeg = "./static/highlight/ffmpeg-20200515-b12b053-win64-static/bin/ffmpeg.exe"
+    AudioSegment.ffprobe = "./static/highlight/ffmpeg-20200515-b12b053-win64-static/bin/ffprobe.exe"
+
+
+    file2_name = filename.replace('mp4', 'mp3')
+    file2 = args['audio_root'] + file2_name
+    sound = sound2data(file2, starttime, endtime)
+    dff=pd.merge(dff, sound, how='left', on='time')
+    
+    # dff.to_excel(data_root + 'dff.xlsx')
 
     with open(data_root + 'dff.txt', 'wb') as f:
         pickle.dump(dff, f)
@@ -333,7 +372,8 @@ def main(starttime ='01:00:00' , endtime =  '01:01:00', filename = '20200506_Fak
 
     dff.to_csv(data_root + 'result.csv')
 
-    return 'sucess'
+
+    return dff
 
     
     
