@@ -29,4 +29,5 @@ urlpatterns = [
     path('upload', views.uploadView.as_view(), name = 'upload'),
     path('analysis', views.analysis),
     # path('admin/', admin.site.urls),
+    
 ]
