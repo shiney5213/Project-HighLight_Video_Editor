@@ -22,27 +22,6 @@ global filename
 CSRF_COOKIE_SECURE = True
 
 
-# @csrf_exempt
-# def download(request):
-#     global filename
-#     print(request.POST.keys())
-#     starttimearray = request.POST.get('startarray', '')
-#     endtimearray =request.POST.get('endarray', '')
-#     print('start', starttimearray)
-#     print('end', endtimearray) 
-#     print('filename', filename)
-
-#     # crop 처리
-#     # 비디오 읽기
-
-#     old_path = settings.BASE_DIR + f'/static/highlight/save/{filename}'
-#     crop_filename = filename.replace('.mp4', '_2.mp4')
-#     new_path = settings.BASE_DIR + f'/static/highlight/save/{crop_filename}'
-
-#     shutil.copy(old_path, new_path)
-
-#     context = {'data': crop_filename}
-#     return render(request, 'highlight/download.html', context)
 
 
 @csrf_exempt
@@ -68,8 +47,6 @@ def analysis(request):
     # rate_list = [random.random() for i in range(int(analysis_time))]
     # print(len(rate_list), rate_list[0])
 
-
-
     #preprocessing 
 
     ddf = preprocessing.main(analysisstarttime, analysisendtime, filename)
@@ -93,8 +70,8 @@ class downloadView(View):
 
     def get(self, request):
         print('reauest', request)
-        return render(request, 'highlight/3.video_jquery_model.html')
-        # return render(request, 'highlight/video_tag.html')
+        # return render(request, 'highlight/3.video_jquery_model.html')
+        return render(request, 'highlight/4.video_jquery_ui.html')
 
     def post(self, request):
         global filename, file
@@ -111,8 +88,8 @@ class downloadView(View):
         # crop 처리
         crop_filename = filename.replace('.mp4', '_2.mp4')
 
-        old_path = settings.BASE_DIR + f'/static/highlight/video/{filename}'
-        new_path = settings.BASE_DIR + f'/static/highlight/video/{crop_filename}'
+        old_path = settings.BASE_DIR + f'/static/highlight/save/{filename}'
+        new_path = settings.BASE_DIR + f'/static/highlight/save/{crop_filename}'
         # shutil.copy(old_path, new_path)
 
         clip_list = []
@@ -133,8 +110,8 @@ class downloadView(View):
 # 파일 upload + file 저장 + file 이름 보내기
 class uploadView(View):
     def get(self, request):
-        # return render(request, 'highlight/upload.html')
         return render(request, 'highlight/1.upload_design.html')
+        # return render(request, 'highlight/upload.html')
 
     def post(self, request):
         global filename
@@ -180,8 +157,8 @@ class uploadView(View):
         # context= {'filename': filename, 'dirname': make_dir}
         context= {'data': filename}
 
-        return render(request, 'highlight/3.video_jquery_model.html', context)
-        # return render(request, 'highlight/video_tag.html', context)
+        return render(request, 'highlight/4.video_jquery_ui.html', context)
+        # return render(request, 'highlight/3.video_jquery_model.html', context)
 
 
 
@@ -199,4 +176,28 @@ class uploadView(View):
 #         print('post', data)
 #         data = {time : data}
 #         return JsonResponse(data)
+
+
+# @csrf_exempt
+# def download(request):
+#     global filename
+#     print(request.POST.keys())
+#     starttimearray = request.POST.get('startarray', '')
+#     endtimearray =request.POST.get('endarray', '')
+#     print('start', starttimearray)
+#     print('end', endtimearray) 
+#     print('filename', filename)
+
+#     # crop 처리
+#     # 비디오 읽기
+
+#     old_path = settings.BASE_DIR + f'/static/highlight/save/{filename}'
+#     crop_filename = filename.replace('.mp4', '_2.mp4')
+#     new_path = settings.BASE_DIR + f'/static/highlight/save/{crop_filename}'
+
+#     shutil.copy(old_path, new_path)
+
+#     context = {'data': crop_filename}
+#     return render(request, 'highlight/download.html', context)
+
 
