@@ -21,6 +21,7 @@ from django.conf.urls import url
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('highlight/', include('highlight.urls')),
+    path('test2/', include('test2.urls')),
     url(r'^favicon\.ico$',RedirectView.as_view(url='/static/images/favicon.ico')),
 
 ]
