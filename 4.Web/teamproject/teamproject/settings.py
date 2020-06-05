@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'highlight.apps.HighlightConfig',
-    'test2.apps.Test2Config',
+    'highlighteditor.apps.HighlighteditorConfig',
 
 ]
 
