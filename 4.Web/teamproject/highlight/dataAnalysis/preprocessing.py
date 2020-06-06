@@ -196,12 +196,14 @@ def process(args):
         i += 1
         ret, frame = cap.read()
         if ret:
-            print(i)
+            # print(i)
             # 사진 자르고 합치기
             frame = makeimage(frame)
 
             # 사진 파일 로컬에 저장
             fn = file[-13:-4] + '_' + str(i) + '.jpg'
+            fn = fn[5:]
+            print('fn', fn)
             img_root = args['image_root']
             cv2.imwrite(f'{img_root}/{fn}', frame)
 
