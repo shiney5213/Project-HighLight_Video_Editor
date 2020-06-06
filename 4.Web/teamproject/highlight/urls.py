@@ -18,7 +18,9 @@ from django.urls import path, include
 from highlight import views
 app_name = 'highlight'
 urlpatterns = [
-    # path('', views.index),
+    path('videotest', views.videotest),
+    # path('upload_file', views.upload_file),
+    # path('', views.index),,
     # path('output', views.output),
     # path('', views.input),
     # path('upload', views.upload),   # highlight/upload
