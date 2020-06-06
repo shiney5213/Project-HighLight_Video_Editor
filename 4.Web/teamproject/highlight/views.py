@@ -20,8 +20,8 @@ import os
 global filename
 
 CSRF_COOKIE_SECURE = True
-
-
+def videotest(request):
+    return render(request, 'highlight/video_tag.html')
 
 
 @csrf_exempt
