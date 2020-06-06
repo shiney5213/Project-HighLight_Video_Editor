@@ -20,7 +20,6 @@ $(function(){
         $('.progressEndTime').text(maxduration);
     });
      
-    //update HTML5 video current play time
     video.on('timeupdate', function() {
         $('.durationText').text(video[0].currentTime);
         var currentPos = video[0].currentTime; //Get currenttime
@@ -67,8 +66,6 @@ $(function(){
             percentage = 0;
         }
         //start icon 보이게하기
-        // alert(percentage);
-        // console.log(percentage);
         $('.progressIcon').css('margin-left', (percentageIcon)+'%');
 
         //Update progress bar and video currenttime
