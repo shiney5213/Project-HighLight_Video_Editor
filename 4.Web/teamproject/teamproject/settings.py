@@ -126,3 +126,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+MIDDLEWARE_CLASSES = (
+  # 생략
+  'djago.middleware.csrf.CsrfViewMiddleware',
+  # 생략
+)
