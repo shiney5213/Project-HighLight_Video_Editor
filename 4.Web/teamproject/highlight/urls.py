@@ -25,7 +25,7 @@ urlpatterns = [
     # path('', views.input),
     # path('upload', views.upload),   # highlight/upload
     # path('videoedit', views.video_edit),   # highlight/upload
-    path('videoedit', views.uploadView.as_view(), name = 'vidoedit'),
+    path('videoedit', views.videoeditView.as_view(), name = 'videoedit'),
     path('download', views.downloadView.as_view(), name = 'download'),   # highlight/download
     # path('download', views.download),   # highlight/download
     path('upload', views.uploadView.as_view(), name = 'upload'),
