@@ -16,12 +16,25 @@ from .dataAnalysis import preprocessing
 from .dataAnalysis import modelpredict
 import datetime
 import os
+import time
+from django.http import HttpResponseRedirect
+# from somewhere import handle_uploaded_file
+from .forms import UploadFileForm
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
+
+# from django.core.urlresolvers import reverse_lazy
+from django.views.generic import View
+
 
 global filename
 
 CSRF_COOKIE_SECURE = True
+
+
 def videotest(request):
     return render(request, 'highlight/video_tag.html')
+
 
 
 @csrf_exempt
@@ -76,6 +89,11 @@ class downloadView(View):
     def post(self, request):
         global filename, file
         # print(request.POST.keys())
+
+
+
+
+
         starttimearray = request.POST.get('startarray', '')
         endtimearray =request.POST.get('endarray', '')
        
@@ -116,10 +134,12 @@ class uploadView(View):
     def post(self, request):
         global filename
         # print('request', request)
+        
+        upload_form = UploadFileForm(request.POST)
+        print('upload_form', upload_form)
 
         try: 
             file = request.FILES.get('filename', '')
-
             filename = file._name
             print('filename',filename)
             
@@ -156,9 +176,25 @@ class uploadView(View):
             filename = request.POST['filename']
         # context= {'filename': filename, 'dirname': make_dir}
         context= {'data': filename}
+        time.sleep(3)
+        
+        return redirect('/highlight/videoedit', context)
+        # return render(request, 'highlight/5.video_jquery_improve.html', context)
+        # return render(request, 'highlight/video_tag.html', context)
 
-        return render(request, 'highlight/4.video_jquery_ui.html', context)
-        # return render(request, 'highlight/3.video_jquery_model.html', context)
+class videoeditView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(videoeditView, self).dispatch(*args, **kwargs)
+
+    def get(self, request):
+        # return render(request, 'highlight/5.video_jquery_improve.html')
+        return render(request, 'highlight/video_tag.html')
+
+    def post(self, request):
+    
+        # return render(request, 'highlight/5.video_jquery_improve.html')
+        return render(request, 'highlight/video_tag.html', context)
 
 
 
