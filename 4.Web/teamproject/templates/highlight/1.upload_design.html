@@ -190,7 +190,7 @@
         <div class="container text-center">
             <h2 class="mb-4">Free Download at Start Bootstrap!</h2>
             <!-- <a class="btn btn-light btn-xl" href="https://startbootstrap.com/themes/creative/">Download Now!</a> -->
-            <form action='videoedit' enctype="multipart/form-data" method = 'POST'>
+            <form action='upload' enctype="multipart/form-data" method = 'POST'>
                 {% csrf_token %}
                 <input type = 'file' name = 'filename' class="btn btn-light btn-xl">
                 <input type = 'submit' value = 'upload' class="btn btn-light btn-xl">
