@@ -16,7 +16,7 @@ import random
 from .dataAnalysis import preprocessing
 from .dataAnalysis import modelpredict
 import datetime
-import os
+import os, time
 
 global filename 
 
@@ -44,23 +44,23 @@ def analysis(request):
 
 
     # 임의로 확률값 결정
-    # rate_list = [random.random() for i in range(int(analysis_time))]
-    # d_data = [random.random() for i in range(int(analysis_time))]
-    # k_data = [random.random() for i in range(int(analysis_time))]
-    # a_data = [random.random() for i in range(int(analysis_time))]
-
+    rate_list = [random.random() for i in range(int(analysis_time))]
+    d_data = [random.random() for i in range(int(analysis_time))]
+    k_data = [random.random() for i in range(int(analysis_time))]
+    a_data = [random.random() for i in range(int(analysis_time))]
+    time.sleep(3)
 
 
     #preprocessing 
-    ddf = preprocessing.main(analysisstarttime, analysisendtime, filename)
-    result = modelpredict.modelpre( ddf, filename)
-    print(result)
+    # ddf = preprocessing.main(analysisstarttime, analysisendtime, filename)
+    # result = modelpredict.modelpre( ddf, filename)
+    # print(result)
 
-    rate_list = result['probability'].tolist()
-    rate_list = [0]*20 + rate_list
-    k_data = ddf['k'].tolist()
-    d_data = ddf['d'].tolist()
-    a_data = ddf['a'].tolist()
+    # rate_list = result['probability'].tolist()
+    # rate_list = [0]*20 + rate_list
+    # k_data = ddf['k'].tolist()
+    # d_data = ddf['d'].tolist()
+    # a_data = ddf['a'].tolist()
 
     print(len(rate_list),len(a_data), len(k_data), len(d_data))
 
@@ -75,7 +75,7 @@ def analysis(request):
 
 class videoeditView(View):
     def get(self, request):
-        return render(request, 'highlighteditor/3.index_graph.html')
+        return render(request, 'highlighteditor/5.index_design.html')
 
     def post(self, request):
         global filename
@@ -182,6 +182,7 @@ def startSearch(request):
     print('len', len(search_list))
     context = {'alltime': int(float(search_end)),
                 'search_list': search_list}
+    time.sleep(5)            
     return  JsonResponse(context)
 
 
