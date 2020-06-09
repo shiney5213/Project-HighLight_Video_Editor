@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Editor</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+	<!-- <script
+		src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+		crossorigin="anonymous">
+	</script> -->
+	<script src="/static/js/highlighteditor/nouislider.min.js"></script>
+	<link rel="shortcut icon" href="../../static/images/icons/favicon.ico">
+
+	<script src="https://d3js.org/d3.v4.js"></script>
+	<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/dot-luv/jquery-ui.css">
+	<link rel="stylesheet" href="/static/css/highlighteditor/nouislider.min.css">
+	<link rel="stylesheet" href="/static/css/highlighteditor/4.style_loading.css">
+	<link rel="stylesheet" href="/static/css/highlighteditor/loading.css">
+
+</head>
+<body>
+	<body>
+
+		<div id="resizable" class="ui-widget-content">
+			<video class="video" loop muted></video>
+			<canvas id="canv"></canvas>
+			<canvas id="canv2"></canvas>
+		</div>
+		
+		<input type="file" id="video_selector" accept="video/*"/>
+
+		<div class = searchgameLoading>
+			<div class="loadingio-spinner-spinner-flleh41fjz"><div class="ldio-iedbqtoy0e">
+			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+			</div></div>
+			<span id=searchgameLoadingTitle>please wait</span>
+		</div>
+
+		<div class="hide_until_load hidden">
+			<div class = searchGame id = searchGame>
+				<h3>Search Game start, end </h3>
+				<!-- graph -->
+				<div id = 'searchGraph' >
+					<svg id = searchSvg></svg> 
+				</div>
+				<span class="current_time"></span>
+				<div class="slider_wrapper">
+					<div id="slider"></div>
+					<div class="slider_time_pos"></div>
+				</div>
+				Start: <input type="number" class="slider_control" data-pos="0" value="0" title="Start" />
+				End: <input type="number" class="slider_control" data-pos="1" value="1" title="End" />
+				<button class='play_toggle' onClick="pause_toggle()">&#10074;&#10074;</button>
+				<label for="mute_toggle">Mute:</label><input type="checkbox" id="mute_toggle" checked />
+				<input type="button" value = 'analysis' class = 'analysisBtn'>
+				
+			</div>	
+		</div>
+
+		
+		<div class = analysisLoading>
+			<div class="loadingio-spinner-spinner-flleh41fjz"><div class="ldio-iedbqtoy0e">
+			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+			</div></div>
+			<span id=anallysisLoadingTitle>please wait</span>
+		</div>
+
+		<div class="hide_until_analysis">
+			<div class = result  id = result>
+				<h3>Analysis Result</h3>
+				<!-- graph -->
+				<div id = 'analysisGraph' >
+					<svg id = analysisSvg></svg> 
+				</div>
+				<div id="radioBtn">
+					<label><input type="radio" name = 'df' value = 'highlight' class = 'ghiglightBtn' checked=checked>highlight</label>
+					<label><input type="radio" name = 'df' value = 'k' class = 'kBtn'>kill</label>
+					<label><input type="radio" name = 'df' value ='d' class = 'dBtn' >death</label>
+					<label><input type="radio" name = 'df' value ='a' class = 'aBtn' >asist</label>
+					<button id = 'radiocheckBtn' value="Submit">확인</button>
+				</div>
+	
+			</div>
+			<div class="slider_wrapper2">
+				<div id="slider2"></div>
+				<!-- <div class="slider_time_pos2"></div> -->
+			</div>
+			Start: <input type="number" class="slider_control2" data-pos="0" value="0" title="Start" />
+			End: <input type="number" class="slider_control2" data-pos="1" value="1" title="End" />
+			<input type="button" value = 'save' class = 'saveBtn'>
+
+			<video class="video2" loop muted></video>
+		</div>
+
+
+			<!-- 일단 건들지 말자 -->
+			<!-- <div class="ffmpeg">
+				ffmpeg -i in.mp4 -filter:v "crop=80:60:200:100" -c:a copy out.mp4
+			</div>
+		
+			<input type="button" id="run_ffmpeg" value="Run FFmpeg in-browser!"/>
+		
+			<div class="ffmpeg_log">
+				Running FFmpeg in-browser is unstable, and may crash. It will not work on large files.
+				It may also take a while to get started, as it must download a large (26Mb) library to run.
+			</div>
+		
+			<div class="download_links">
+		
+			</div> -->
+
+<script src="/static/highlighteditor/ffmpeg/ffmpeg_runner.js"></script>
+<script src="/static/js/highlighteditor/4.control_loading.js"></script>
+
+</body>
+</html>
+
+<!-- https://github.com/shadowmoose/Web-Video-Editor -->
