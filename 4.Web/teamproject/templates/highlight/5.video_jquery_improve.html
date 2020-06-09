@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+	<meta charset = 'UTF-8'>
+    <title>HighLight</title>
+
+    <link rel="shortcut icon" href="../../static/images/icons/favicon.ico">
+	<link rel="stylesheet"  type = 'text/css' href="/static/css/4.video_jquery_ui.css">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    
+
+    <!-- d3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- <script src = "https://d3js.org/d3.v5.min.js"> </script> -->
+
+</head> 
+
+<body>
+    <video id="myVideo" autoplay controls poster="../../static/highlight/wait.png" width="600" height="400" autoplay>
+        <!-- <source src="../static/highlight/{{dirname}}/{{filename}}" type="video/mp4" /> -->
+        <!-- <source src="../static/highlight/{{data.dir_name}}/{{data}}" type="video/ogg" /> -->
+        <!-- <source src="../static/highlight/save/{{data}}" type="video/mp4" /> -->
+        <!-- <source src="../static/highlight/save/{{data}}" type="video/webM" />  -->
+        <source src="../static/highlight/save/test.mp4" type="video/mp4" />
+        <source src="../static/highlight/save/test.mp4" type="video/webM" />
+        <p>Your browser does not support the video tag.</p>
+    </video>
+    
+
+    <!-- Video Play/Pause Controls -->
+    <div class="control">
+        <a href="#" class="btnPlay">Play/Pause</a>
+    </div>
+
+
+    <!-- progress -->
+    <div class=progress>
+    <h3 class = progressbarTitle>Progress Bar </h3> 
+        <div class="progressBar">
+            <div class="progressTimeBar"></div><br>
+            <span class = 'progressIcon'></span>
+            <!-- <span class = 'progressstartIcon'></span> -->
+            <div class = 'progressStartTime'></div>
+            <div class = 'progressEndTime'></div>
+            Curtime: <span class = 'durationText'></span>
+        </div>
+    </div>
+
+    <!-- analysis -->
+    <div class = 'analysis'>
+        <h3 class ='analysisTitle'>Analysis Bar</h3>
+        <div class = analysisBarBox>
+            <div class="analysisBar">
+                <div class="analysisStartIcon"></div>
+                <div class="analysisEndIcon"></div>
+                <!-- <div class="analysisBarCanvas"></div> -->
+            </div>
+        </div>
+        <!-- <div class = "analysisColorBar"> -->
+        <div class = 'analysisBtn'>
+            <input type="button" value = 'analysis start' class = 'analysisStartBtn'>
+            <input type="button" value = 'analysis end' class = 'analysisEndBtn'>
+            <input type="button" value = '분석해주세요' class = 'pleaseAnalysis'>
+            <input type="button" value = '재설정' class = 'resetAnalysisBtn'>
+        </div>
+    </div>
+    
+    <br>
+    <!-- result -->
+    <div class = result id = result>
+        <h3>Analysis Result</h3>
+        <!-- graph -->
+        <div id = 'graph' >
+            <svg id = svg></svg> 
+        </div>
+    
+        <!-- highlight -->
+        <div class= 'highlight'>
+            <h3>highlight Bar</h3>
+            <div class = highlightBarBox>
+                <div class="highlightBar"></div>
+                <div class="highlightStartIcon"></div>
+                <div class="highlightEndIcon"></div>
+                <!-- <div class = 'canvasBar'></div>   -->
+            </div>
+            <!-- <div class = "highlightColorBar"> -->
+            <!-- </div> -->
+        
+            <div class = highlightBtn>
+                <input type="button" value = 'start time' class = 'start_btn'>
+                <input type="button" value = 'end time' class = 'end_btn'>
+                <input type="button" value = '확인' class = check_btn>
+                <input type="button" value = '수정' class = modify_btn>
+                <input type="button" value = '저장' class = save_btn>
+            </div>
+        
+            <div class = 'hiddenform'></div>
+            <!-- <div class = 'analysis_graph'> -->
+        <!-- </div> -->
+            
+        </div>
+
+    <script type = 'text/javascript' src = '/static/js/4.video_jquery_ui.js'></script>
+
+</body>
+</html>
+    <!-- https://www.inwebson.com/html5/custom-html5-video-controls-with-jquery/ -->
+    <!-- jqplot 예시:http://www.nextree.co.kr/p2461/ -->
+    <!-- d3.js: https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js -->
+<!-- dj.js 좋은 튜토리얼: https://codelib.tistory.com/5?category=790653 -->
