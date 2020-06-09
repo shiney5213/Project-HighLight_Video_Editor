@@ -70,6 +70,7 @@ $(function(){
 
         //Update progress bar and video currenttime
         $('.progressTimeBar').css('width', percentage+'%');
+        alert(percentage);
         video[0].currentTime = maxduration * percentage / 100;
         // video[0].currentTime = 155;
         
