@@ -15,10 +15,26 @@ import shutil
 import random
 from .dataAnalysis import preprocessing
 from .dataAnalysis import modelpredict
+from .dataAnalysis import isgame_test
+from .dataAnalysis import usingdata
+
 import datetime
 import os, time
 
-global filename 
+global filename , data_path, pluscount
+# filename = 'test30m.mp4'
+# pluscount  = 18000
+filename = 'test.mp4'
+pluscount = 1000
+# filename = 'test10m.mp4'
+# pluscount = 10000
+
+dirname = filename.replace('.mp4', '')
+data_path = f"./static/highlighteditor/{dirname}/data"
+try: 
+    os.makedirs(data_path)
+except Exception as err:
+    print(err)
 
 CSRF_COOKIE_SECURE = True
 
@@ -26,14 +42,13 @@ CSRF_COOKIE_SECURE = True
 def analysis(request):
     global filename
 
-    filename = 'test.mp4'
+    # filename = 'test.mp4'
     print('key',request.POST.keys())
     analysis_start = request.POST.get('analysis_start', '0')
     analysis_end =request.POST.get('analysis_end', '1')
  
-    # analysis_start_list = analysis_start_list.split(',')
-    # analysis_end_list=analysis_end_list.split(',')
-    print(analysis_start, analysis_end)
+
+    print('시간 확인',analysis_start, analysis_end)
     analysis_time = int(float(analysis_end)-float(analysis_start))
 
     analysisstarttime = int(float(analysis_start))
@@ -44,23 +59,30 @@ def analysis(request):
 
 
     # 임의로 확률값 결정
-    rate_list = [random.random() for i in range(int(analysis_time))]
-    d_data = [random.random() for i in range(int(analysis_time))]
-    k_data = [random.random() for i in range(int(analysis_time))]
-    a_data = [random.random() for i in range(int(analysis_time))]
-    time.sleep(3)
+    # rate_list = [random.random() for i in range(int(analysis_time))]
+    # d_data = [random.random() for i in range(int(analysis_time))]
+    # k_data = [random.random() for i in range(int(analysis_time))]
+    # a_data = [random.random() for i in range(int(analysis_time))]
+    # time.sleep(3)
 
 
     #preprocessing 
-    # ddf = preprocessing.main(analysisstarttime, analysisendtime, filename)
-    # result = modelpredict.modelpre( ddf, filename)
-    # print(result)
+    ddf = preprocessing.main(analysisstarttime, analysisendtime, filename)
+    result = modelpredict.modelpre( ddf, filename, data_path)
+    print(result)
 
-    # rate_list = result['probability'].tolist()
-    # rate_list = [0]*20 + rate_list
+    rate_list = result['probability'].tolist()
+    # rate_list = [0]*(20+int(float(analysis_start))) + rate_list
+    
+    rate_list = [0]*(20) + rate_list
+
     # k_data = ddf['k'].tolist()
     # d_data = ddf['d'].tolist()
     # a_data = ddf['a'].tolist()
+    all, k_data, d_data, a_data = usingdata.delta(ddf, data_path)
+    k_data = k_data.tolist()
+    d_data = d_data.tolist()
+    a_data = a_data.tolist()
 
     print(len(rate_list),len(a_data), len(k_data), len(d_data))
 
@@ -75,7 +97,8 @@ def analysis(request):
 
 class videoeditView(View):
     def get(self, request):
-        return render(request, 'highlighteditor/5.index_design.html')
+        return render(request, 'highlighteditor/5.index_d3.html')
+        # return render(request, 'highlighteditor/4.index_loading.html')
 
     def post(self, request):
         global filename
@@ -145,15 +168,8 @@ def savevideo(request):
     new_path = settings.BASE_DIR + f'/static/highlighteditor/save/{crop_filename}'
     # shutil.copy(old_path, new_path)
 
-    # clip_list = []
-    # for start, end in zip(startarray, endarray):
-    #     start= round(float(start), 2)
-    #     end = round(float(end), 2)
-    #     print(start, end)
-    #     clip_list.append(VideoFileClip(old_path).subclip(start, end))
-    # clip1 = VideoFileClip(file_path).subclip(5,7)
+  
     clip = VideoFileClip(old_path).subclip(float(save_start), float(save_end))
-    # final_clip = concatenate_videoclips(float(save_start), float(save_end))
     clip.write_videofile(new_path)
 
     context = {'data': crop_filename,
@@ -163,7 +179,7 @@ def savevideo(request):
 
 @csrf_exempt
 def startSearch(request):
-    global filename
+    global filename, data_path, pluscount
     print('key',request.POST.keys())
 
     search_start = request.POST.get('search_start', '')
@@ -173,16 +189,35 @@ def startSearch(request):
     print('end',search_end)
 
     
+    filepath = settings.BASE_DIR + f'/static/highlighteditor/save/{filename}'
+    # df = isgame_test.startgame(filepath,data_path, pluscount)
+    # print('len', len(df))
+    # search_list = df[0].tolist()
+
+    # time_list = [i for i in range(len(df))]
+
+# random
     search_list = []
-    for i in range(int(float(search_end))):
-        if i < len(search_end)/2:
+    for i in range(100000):
+        if i < 100:
+            search_list.append(1)
+        elif i <200:
             search_list.append(0)
         else:
-            search_list.append(1)
+            search_list.append(0)
     print('len', len(search_list))
+    # time.sleep(5)       
+
+    # dataset = []
+    # for i, j in zip(time_list, search_list):
+    #     data = {'x': i, 'y': j}
+    #     dataset.append(data)     
+    
     context = {'alltime': int(float(search_end)),
-                'search_list': search_list}
-    time.sleep(5)            
+                'search_list': search_list,
+                # 'dataset': dataset
+                }
+
     return  JsonResponse(context)
 
 
