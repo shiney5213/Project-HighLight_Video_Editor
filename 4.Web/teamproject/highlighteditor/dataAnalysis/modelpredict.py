@@ -3,9 +3,9 @@ from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 import numpy as np
 
-def modelpre( ddf, filename):
+def modelpre( ddf, filename, data_path):
     # 모델 경로
-    model = load_model('./static/highlight/highlight2.h5')
+    model = load_model('./static/highlighteditor/highlight_3.h5')
     print(model)
     # 인풋값 경로
     # df = pd.read_excel('/content/drive/My Drive/highlight/송호성의 방/hl/20200506_Faker_612874923.mp4_5.xlsx')
@@ -54,6 +54,6 @@ def modelpre( ddf, filename):
 
     save_dir = filename.replace('mp4', '')
     
-    final.to_csv(f'./static/highlight/{save_dir}/data/final.csv')
+    final.to_csv(data_path + '/final.csv', index = False)
 
     return final
