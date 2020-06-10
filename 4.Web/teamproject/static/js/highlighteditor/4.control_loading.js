@@ -34,13 +34,14 @@ let analysisLoading = $('.analysisLoading');
 let analysisLoadingTitle = $('.analysisLoadingTitle');
 let searchgameLoading = $('.searchgameLoading');
 let searchgameLoadingTitle = $('.searchgameLoadingTitle');
+let $hancan = null;
+let left_margin = 0;
 
 $(function() {
 	///////////////////////////////////analysis start, end control
 
 	video2.on('loadedmetadata', function() {
 		maxduration = video2[0].duration;
-		// alert(maxduration);
     });
 	
 	function searchGame(){
@@ -55,6 +56,7 @@ $(function() {
 		}
 	})
 		.done(function(data){
+				alert(data.search_list.length);
 
 				search_array = data.search_list;
 				console.log('time'+data.alltime);
@@ -70,7 +72,6 @@ $(function() {
 				$searchGraph.css('width', 900-$left_margin2);
 				
 				var searchSvg = d3.select('#searchSvg');
-				// alert(searchSvg);
 				
 				searchSvg.selectAll('bar')
 				.data(search_array)  //사용할 데이터 지정
@@ -111,7 +112,6 @@ $(function() {
 				},
 		})
 		.done(function(data2){
-			// alert('data2'+data2);
 			$analysis_time = data2.analysis_time;
 			$dataset = data2.highlight_rate;
 			highlight_rate = data2.highlight_rate;
@@ -123,11 +123,12 @@ $(function() {
 			console.log('dataset'+ $dataset);
 			
 			//d3.js
-			var $hancan = 900 / Number(maxduration).toFixed(0);
-			var $left_margin =$hancan * (time_start).toFixed(0);
-			$analysisSvg.css('margin-left' ,$left_margin);
-			$analysisSvg.css('width',900 - $left_margin);
-			$analysisGraph.css('width', 900-$left_margin);
+			$hancan = 900 / Number(maxduration).toFixed(0);
+			left_margin =$hancan * (time_start).toFixed(0);
+			alert(left_margin)
+			$analysisSvg.css('margin-left' ,left_margin);
+			// $analysisSvg.css('width',900 - left_margin);
+			// $analysisGraph.css('width', 900-left_margin);
 			
 			var analysisSvg = d3.select('#analysisSvg');
 			
@@ -152,45 +153,6 @@ $(function() {
 		})	
 	});
 
-        // $.ajax({url: 'analysis', 
-        //         type: 'POST',
-        //         data: {'analysis_start': time_start,
-        //                 'analysis_end': time_end,
-        //         },
-        //         success: function(data2){
-        //                 $analysis_time = data2.analysis_time;
-		// 				$dataset = data2.highlight_rate;
-		// 				highlight_rate = data2.highlight_rate;
-		// 				console.log('highlight', highlight_rate);
-		// 				k_data = data2.k_data;
-		// 				a_data = data2.a_data;
-		// 				d_data = data2.d_data; 
-		// 				console.log('time'+ $analysis_time);
-		// 				console.log('dataset'+ $dataset);
-						
-        //                 //d3.js
-        //                 var $hancan = 900 / Number(maxduration).toFixed(0);
-        //                 var $left_margin =$hancan * (time_start).toFixed(0);
-        //                 $analysisSvg.css('margin-left' ,$left_margin);
-        //                 $analysisSvg.css('width',900 - $left_margin);
-        //                 $analysisGraph.css('width', 900-$left_margin);
-                        
-        //                 var analysisSvg = d3.select('#analysisSvg');
-                        
-        //                 analysisSvg.selectAll('bar')
-        //                 .data($dataset)  //사용할 데이터 지정
-        //                 .enter()         
-        //                 .append('rect')
-        //                 .attr('height', function(d,i) {return d* 50})  //도형 크기
-        //                 .attr('width', $hancan)
-        //                 .attr('x', function(d,i){return (($hancan) * i)})   //도형 위치
-        //                 .attr('y', function(d,i){return (100-$dataset[i]*50)}) //도형 위치
-		// 				.attr('background-color', '#cccccc')
-		// 				.attr('class', 'highlightrate');
-        //             }
-        // });  
-       
-
 
 	$('#radiocheckBtn').click(function(){
 		// alert($("input[name=df]:checked").val());
@@ -214,11 +176,11 @@ $(function() {
             deletegraph.removeChild(deletegraph.lastChild);
 		};
 
-		var $hancan = 900 / Number(maxduration).toFixed(0);
-		var $left_margin =$hancan * (time_start).toFixed(0);
-		$analysisSvg.css('margin-left' ,$left_margin);
-		$analysisSvg.css('width',900 - $left_margin);
-		$analysisGraph.css('width', 900-$left_margin);
+		$hancan = 900 / Number(maxduration).toFixed(0);
+		var left_margin =$hancan * (time_start).toFixed(0);
+		$analysisSvg.css('margin-left' ,left_margin);
+		// $analysisSvg.css('width',900 - left_margin);
+		// $analysisGraph.css('width', 900-left_margin);
 		
 		var analysisSvg = d3.select('#analysisSvg');
 		
@@ -378,6 +340,7 @@ $(function() {
 		let fileUrl = window.URL.createObjectURL(fileInput.files[0]);
 		filename = fileInput.files[0].name;
 		selected_file = fileInput.files[0];
+		// alert(filename);
 		$(".video").attr("src", fileUrl);
 		e.target.remove();
 	});
