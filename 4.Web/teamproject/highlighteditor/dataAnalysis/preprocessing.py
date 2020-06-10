@@ -180,9 +180,8 @@ def process(args):
                     region_name=args['AWS_DEFAULT_REGION']
                     )
 
-    print(file)
-    file = './static/highlighteditor/test/video/test.mp4'
-    print(file)
+    print('file', file)
+
     print('isfile', os.path.isfile(file))
     # print(args['video_root'])
     # file_path = args['video_root'] + args['filename']
@@ -246,9 +245,9 @@ def main(starttime ='01:00:00' , endtime =  '01:01:00', filename = '20200506_Fak
 
 
     audio_root =f"./static/highlighteditor/{make_dir}/audio/" 
-    data_root =f"./static/highlighteditor/{make_dir}/data/" 
+    data_root = f"./static/highlighteditor/{make_dir}/data/" 
     image_root =f"./static/highlighteditor/{make_dir}/image/" 
-    video_root =f"./static/highlightdeitor/{make_dir}/video/" 
+    video_root =f"./static/highlighteditor/{make_dir}/video/" 
 
     try:
         os.makedirs(audio_root)
@@ -370,13 +369,13 @@ def main(starttime ='01:00:00' , endtime =  '01:01:00', filename = '20200506_Fak
     
     # dff.to_excel(data_root + 'dff.xlsx')
 
-    with open(data_root + 'dff.txt', 'wb') as f:
-        pickle.dump(dff, f)
+    # with open(data_root + 'dff.txt', 'wb') as f:
+    #     pickle.dump(dff, f)
 
-    with open(data_root + 'dff.txt', 'rb') as f:
-        dff = pickle.load(f)
+    # with open(data_root + 'dff.txt', 'rb') as f:
+    #     dff = pickle.load(f)
 
-    dff.to_csv(data_root + 'preprocessing.csv')
+    dff.to_csv(data_root + 'preprocessing.csv', index = False)
 
 
     return dff
