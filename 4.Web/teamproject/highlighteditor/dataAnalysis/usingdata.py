@@ -52,7 +52,28 @@ def delta(data, data_path):
     df['demo'] = df.iloc[:,3:11].sum(axis=1)
     df.dropna(inplace=True)
 
-    df.to_csv(data_path, +'/kda.csv')
+    save_path = data_path + '/kda.csv'
+    print(save_path)
+    df.to_csv(save_path)
+    pltx = 900/72
+    plty = 144/72
+
+    for i in ['dk', 'da','dd']:
+        plt.rcParams['figure.figsize'] = (pltx,plty)
+        plt.rcParams['lines.linewidth'] = 2
+        plt.rcParams['lines.color']= 'r'
+        plt.rcParams['axes.grid'] = True
+
+
+        dataframe = data[i]
+        plt.plot(dataframe)
+        plt.yticks([0,1])
+        plt.draw()
+        fig = plt.gcf()
+
+        img_name = f'{data_path}/{i}.png'
+        print('save', img_name)
+        fig.savefig(img_name, dpi = fig.dpi,  bbox_inches='tight')
 
     return df, df['dk'],df['dd'],df['da']
 
