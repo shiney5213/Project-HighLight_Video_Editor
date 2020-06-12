@@ -2,6 +2,7 @@ from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 def modelpre( ddf, filename, data_path):
     # 모델 경로
@@ -56,4 +57,22 @@ def modelpre( ddf, filename, data_path):
     
     final.to_csv(data_path + '/final.csv', index = False)
 
+    pltx = 900/72
+    plty = 144/72
+
+    plt.rcParams['figure.figsize'] = (pltx,plty)
+    plt.rcParams['lines.linewidth'] = 2
+    plt.rcParams['lines.color']= 'r'
+    plt.rcParams['axes.grid'] = True
+
+    
+    dataframe = final['probability']
+    plt.plot(dataframe)
+    plt.yticks([0,1])
+    plt.draw()
+    fig = plt.gcf()
+
+    img_name = f'{data_path}/highlight.png'
+    ('save', img_name)
+    fig.savefig(img_name, dpi = fig.dpi,  bbox_inches='tight')
     return final
