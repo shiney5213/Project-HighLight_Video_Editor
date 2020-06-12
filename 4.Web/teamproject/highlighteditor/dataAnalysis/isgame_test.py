@@ -135,6 +135,23 @@ def startgame(filepath, data_path, pluscount):
     try:
         df.to_csv(data_path +'/isgame.csv', index = False)
     except Exception as err:
-        print(err)   
+        print(err)  
+
+     
+ #plot save
+    pltx = 1000/72
+    plty = 144/72
+
+    plt.rcParams['figure.figsize'] = (pltx,plty)
+    plt.rcParams['lines.linewidth'] = 2
+    plt.rcParams['lines.color']= 'r'
+    plt.rcParams['axes.grid'] = True
+
+    plt.plot(df)
+    plt.yticks([0,1])
+    plt.draw()
+    fig = plt.gcf()
+    fig.savefig(data_path + '/isgame.png', dpi = fig.dpi,  bbox_inches='tight')
+    print('png save')
     return df
 # plt.plot(df)
