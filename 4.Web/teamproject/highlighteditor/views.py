@@ -21,14 +21,13 @@ from .dataAnalysis import usingdata
 import datetime
 import os, time
 
-global filename , data_path, pluscount
+global filename , data_path, pluscount,  dirname
 # filename = 'test30m.mp4'
 # pluscount  = 18000
-filename = 'test.mp4'
-pluscount = 1000
-# filename = 'test10m.mp4'
-# pluscount = 10000
-
+# filename = 'test.mp4'
+# pluscount = 1000
+filename = 'test10m.mp4'
+pluscount = 10000
 dirname = filename.replace('.mp4', '')
 data_path = f"./static/highlighteditor/{dirname}/data"
 try: 
@@ -58,37 +57,28 @@ def analysis(request):
     print('시간 ', analysisstarttime, analysisendtime)
 
 
-    # 임의로 확률값 결정
-    # rate_list = [random.random() for i in range(int(analysis_time))]
-    # d_data = [random.random() for i in range(int(analysis_time))]
-    # k_data = [random.random() for i in range(int(analysis_time))]
-    # a_data = [random.random() for i in range(int(analysis_time))]
-    # time.sleep(3)
-
+    # test
+    highlight_rate = [random.random() for i in range(int(analysis_time))]
+    d_data = [random.random() for i in range(int(analysis_time))]
+    k_data = [random.random() for i in range(int(analysis_time))]
+    a_data = [random.random() for i in range(int(analysis_time))]
+    
 
     #preprocessing 
-    ddf = preprocessing.main(analysisstarttime, analysisendtime, filename)
-    result = modelpredict.modelpre( ddf, filename, data_path)
-    print(result)
+    # ddf = preprocessing.main(analysisstarttime, analysisendtime, filename)
+    # result = modelpredict.modelpre( ddf, filename, data_path)
+    # rate_list = result['probability'].tolist()
+    # highlight_rate = [0]*(20+int(float(analysis_start))) + rate_list
+    # all, k_data, d_data, a_data = usingdata.delta(ddf, data_path)
+    # k_data = k_data.tolist()
+    # d_data = d_data.tolist()
+    # a_data = a_data.tolist()
 
-    rate_list = result['probability'].tolist()
-    # rate_list = [0]*(20+int(float(analysis_start))) + rate_list
-    
-    rate_list = [0]*(20) + rate_list
+    time_data2 = [ i for i in range(analysis_time)]
 
-    # k_data = ddf['k'].tolist()
-    # d_data = ddf['d'].tolist()
-    # a_data = ddf['a'].tolist()
-    all, k_data, d_data, a_data = usingdata.delta(ddf, data_path)
-    k_data = k_data.tolist()
-    d_data = d_data.tolist()
-    a_data = a_data.tolist()
 
-    print(len(rate_list),len(a_data), len(k_data), len(d_data))
-
-    # context = {'analysis_time': analysis_time,
-    context = {'analysis_time': len(rate_list),
-                'highlight_rate': rate_list,
+    context = {'time_data2': time_data2,
+                'highlight_rate': highlight_rate,
                 'k_data': k_data,
                 'a_data': a_data,
                 'd_data': d_data}
@@ -97,8 +87,9 @@ def analysis(request):
 
 class videoeditView(View):
     def get(self, request):
-        return render(request, 'highlighteditor/5.index_d3.html')
-        # return render(request, 'highlighteditor/4.index_loading.html')
+        # return render(request, 'highlighteditor/7.index_chartjs.html')
+        return render(request, 'highlighteditor/8.index_slider.html')
+        # return render(request, 'highlighteditor/chartjs.html')
 
     def post(self, request):
         global filename
@@ -188,34 +179,34 @@ def startSearch(request):
     print('start', search_start)
     print('end',search_end)
 
+    search_start = int(float(search_start))
+    search_end = int(float(search_end))
+
     
-    filepath = settings.BASE_DIR + f'/static/highlighteditor/save/{filename}'
+
+    # real
+    # filepath = settings.BASE_DIR + f'/static/highlighteditor/save/{filename}'
     # df = isgame_test.startgame(filepath,data_path, pluscount)
     # print('len', len(df))
     # search_list = df[0].tolist()
 
-    # time_list = [i for i in range(len(df))]
 
-# random
+    # test
     search_list = []
-    for i in range(100000):
-        if i < 100:
+    for i in range(search_end):
+        if i < int(int(search_end)/2):
             search_list.append(1)
-        elif i <200:
+        elif i <int(int(search_end) * 3/4):
             search_list.append(0)
         else:
-            search_list.append(0)
-    print('len', len(search_list))
-    # time.sleep(5)       
+            search_list.append(1)
 
-    # dataset = []
-    # for i, j in zip(time_list, search_list):
-    #     data = {'x': i, 'y': j}
-    #     dataset.append(data)     
-    
-    context = {'alltime': int(float(search_end)),
+
+    time_data = [i for i in range(len(search_list))]
+
+
+    context = {'time_data': time_data,
                 'search_list': search_list,
-                # 'dataset': dataset
                 }
 
     return  JsonResponse(context)
