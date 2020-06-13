@@ -3,18 +3,14 @@ let video3 = document.querySelector(".video2");
 let canvas = document.getElementById("canv");
 let ctx = canvas.getContext("2d");
 let slider = document.getElementById('slider');
-let slider2 = document.getElementById('slider2');
 
 let video_size = {'w': 0, 'h': 0};
 let filename = 'in.mp4';
 let time_start = 0;
-let time_start2 = 0;
 let time_end = 1;
+let time_start2 = 0;
 let time_end2 = 1;
-
 let crop = [null, null];
-let crop2 = [null, null];
-
 let ffmpeg = null;
 let selected_file = null;
 let heap_limit = null;
@@ -39,7 +35,6 @@ let searchgameLoading = $('.searchgameLoading');
 let searchgameLoadingTitle = $('.searchgameLoadingTitle');
 let $hancan = null;
 let left_margin = 0;
-
 let ctx_range= null;
 
 let ctxx = document.getElementById("myChart").getContext('2d');
@@ -121,8 +116,36 @@ $(function() {
 		});
 	};
 
+	$('.analysisBtn').on('click', function(e){
+		noUiSlider.create(slider2, {
+			// start: [0, this.duration],
+			start:[time_start, time_end],
+			connect: true,
+			range: {
+				// 'min': 0,
+				// 'max': this.duration
+				'min': time_start,
+				'max': time_end			}
+		});
+		slider2.noUiSlider.on('update', (range)=>{
+			update_slider_fields2(range);
+		});
+		update_slider_fields2();
+	}).bind('loadeddata', function(e) {
+		// noinspection JSIgnoredPromiseFromCall
+		e.target.play();  // start playing
+	}).on('pause', (e)=>{
+		console.log('Paused: ', e.target.currentTime)
+	});
+
+	$('.slider_control2').on('change', (e)=>{
+		$analysis_time = null;
+		$dataset = null; 
+		set_slider2();
+	});
+
+		
 	$('.analysisBtn').on('click', function(){
-	
 		analysisLoading.show();
 		analysisLoadingTitle.show();
 
@@ -281,65 +304,33 @@ $(function() {
 	});
 
 	
-	$(".video").bind("loadedmetadata", function (e) {
-
-		video_size = {'w': this.videoWidth, 'h': this.videoHeight};
-		$('.hide_until_load').removeClass('hidden');
-		noUiSlider.create(slider2, {
-			start: [0, this.duration],
-			connect: true,
-			range: {
-				'min': 0,
-				'max': this.duration
-			}
-		});
-		slider2.noUiSlider.on('update', (range)=>{
-			update_slider_fields2(range);
-		});
-		update_slider_fields2();
-
-
-	}).bind('loadeddata', function(e) {
-		// noinspection JSIgnoredPromiseFromCall
-		e.target.play();  // start playing
-	}).on('pause', (e)=>{
-		console.log('Paused: ', e.target.currentTime)
-	});
-
-	$('.slider_control2').on('change', (e)=>{
-		$analysis_time = null;
-		$dataset = null; 
-		set_slider2;
-	});
-
-
-
-	let drawing2 = false;
-	$("#canv2").mousedown((e)=>{
-		let pos2 = getMousePos2(canvas, e);
-		drawing2 = true;
-		console.log('click', pos2);
-		crop2 = [pos, null]
-	}).mousemove(function(e) {
-		if(!drawing2)
-			return;
-		let pos2 = getMousePos2(canvas, e);
-		crop2 = [crop[0], pos];
-	}).on('mouseup', function(e) {
-		if(!drawing2)
-			return;
-		let pos2 = getMousePos2(canvas, e);
-		console.log('Mouse Up', pos2);
-		crop2 = [crop[0], pos2];
-		drawing2 = false;
-		if(crop2[0].x === crop2[1].x && crop2[0].y === crop2[1].y)
-			crop2 = [null, null];
-		console.log(crop2);
-	});
+	// let drawing2 = false;
+	// $("#canv2").mousedown((e)=>{
+	// 	let pos = getMousePos(canvas, e);
+	// 	drawing2 = true;
+	// 	console.log('click', pos);
+	// 	crop = [pos, null]
+	// }).mousemove(function(e) {
+	// 	if(!drawing2)
+	// 		return;
+	// 	let pos = getMousePos(canvas, e);
+	// 	crop = [crop[0], pos];
+	// }).on('mouseup', function(e) {
+	// 	if(!drawing2)
+	// 		return;
+	// 	let pos = getMousePos(canvas, e);
+	// 	console.log('Mouse Up', pos);
+	// 	crop = [crop[0], pos];
+	// 	drawing2 = false;
+	// 	if(crop[0].x === crop[1].x && crop[0].y === crop[1].y)
+	// 		crop = [null, null];
+	// 	console.log(crop);
+	// });
 
 	$('.slider_time_pos2').mousedown((e)=>{
 		let ele = e.target;
-		let last_pos = e.clientX;
+		let last_pos = e.clientX;  //처음위치
+		console.log('last_pos_init'+last_pos);
 		function mup(e, ele){
 			console.log('up');
 			document.onmousemove = null;
@@ -349,14 +340,28 @@ $(function() {
 			let delta = e.clientX - last_pos;
 			console.log('Delta:', delta);
 			last_pos = e.clientX;
-			let total_percent = (ele.offsetLeft+delta)/ele.parentElement.offsetWidth;
-			console.log(total_percent);
-			video.currentTime = video.duration * total_percent
+			let total_percent2 = (ele.offsetLeft+delta)/ele.parentElement.offsetWidth;
+			console.log(total_percent2);
+			// video.currentTime = video.duration * total_percent
+			// $(".slider_time_pos2").css("left", total_percent2);
+			$(".slider_time_pos2").css("left", 100);
+
+			complete_percent = e.clientx*(time_end - time_start) + time_start;
+			
+			$(".slider_time_pos").css("left", total_percent2 + "%");
+			// console.log(complete_percent, typeof(complete_percent));
+			
+			// let complete_percent2 =  100 *((video.currentTime-time_start)/(time_end -time_start))
+			// $(".slider_time_pos2").css("left", complete_percent2+ "%");
+
+			// video.currentTime = video.duration * total_percent
 		}
+		
 		document.onmousemove = (e)=>{mmov(e, ele)};
 		document.onmouseup = (e)=>{mup(e, ele)};
 	});
 
+	//set save time 
 	function update_slider_fields2(range){
 		if(!range || range.length < 2)
 			return;
@@ -379,14 +384,14 @@ $(function() {
 	
 	
 	function getMousePos2(canvas, evt) {
-		let rect = canvas2.getBoundingClientRect();
+		let rect2 = canvas.getBoundingClientRect();
 		return {
-			x: (evt.clientX - rect.left) / rect.width,
-			y: (evt.clientY - rect.top) / rect.height
+			x: (evt.clientX - rect2.left) / rect2.width,
+			y: (evt.clientY - rect2.top) / rect2.height
 		};
 	}
 	
-	function unscale2(coords, rect){
+	function unscale2(coords, rect2){
 		return{
 			'x': coords.x * rect.width,
 			'y': coords.y * rect.height
@@ -474,23 +479,38 @@ $(function() {
 	let drawing = false;
 	$("#canv").mousedown((e)=>{
 		let pos = getMousePos(canvas, e);
+		let pos2 = getMousePos2(canvas, e);
+
 		drawing = true;
 		console.log('click', pos);
 		crop = [pos, null]
+		crop2 = [pos, null]
+
 	}).mousemove(function(e) {
 		if(!drawing)
 			return;
 		let pos = getMousePos(canvas, e);
+		let pos2 = getMousePos2(canvas, e);
+
 		crop = [crop[0], pos];
+		crop2 = [crop2[0], pos2];
+
 	}).on('mouseup', function(e) {
 		if(!drawing)
 			return;
 		let pos = getMousePos(canvas, e);
+		let pos2 = getMousePos2(canvas, e);
+
 		console.log('Mouse Up', pos);
 		crop = [crop[0], pos];
+		crop2 = [crop2[0], pos];
+
 		drawing = false;
 		if(crop[0].x === crop[1].x && crop[0].y === crop[1].y)
 			crop = [null, null];
+		if(crop2[0].x === crop2[1].x && crop2[0].y === crop2[1].y)
+			crop2 = [null, null];
+	
 		console.log(crop);
 	});
 
@@ -510,8 +530,10 @@ $(function() {
 			console.log(total_percent);
 			video.currentTime = video.duration * total_percent
 		}
+		
 		document.onmousemove = (e)=>{mmov(e, ele)};
 		document.onmouseup = (e)=>{mup(e, ele)};
+
 	});
 
 	$("#run_ffmpeg").click(() => {
@@ -537,8 +559,8 @@ $(function() {
 		console.log('Running FFMPEG:', cmd);
 		ffmpeg.start(selected_file, cmd, progress_callback);
 	});
-});
 
+});
 
 function update_slider_fields(range){
 	if(!range || range.length < 2)
@@ -637,6 +659,11 @@ function update(){
 		video.currentTime = time_start;
 	let complete_percent = 100 * (video.currentTime / video.duration);
 	$(".slider_time_pos").css("left", complete_percent + "%");
+	// console.log(complete_percent, typeof(complete_percent));
+	
+	let complete_percent2 =  100 *((video.currentTime-time_start)/(time_end -time_start))
+	$(".slider_time_pos2").css("left", complete_percent2+ "%");
+
 	$(".current_time").text(video.currentTime.toFixed(2));
 	// noinspection JSCheckFunctionSignatures
 	ctx.drawImage(video, 0, 0, canvas.width, canvas.height); //TODO: Subimage using crop.
@@ -647,6 +674,5 @@ function update(){
 	}
 	requestAnimationFrame(update.bind(this)); // Tell browser to trigger this method again, next animation frame.
 }
-
 update(); //Start rendering
 
