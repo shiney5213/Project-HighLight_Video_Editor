@@ -24,10 +24,10 @@ import os, time
 global filename , data_path, pluscount,  dirname
 # filename = 'test30m.mp4'
 # pluscount  = 18000
-# filename = 'test.mp4'
-# pluscount = 1000
-filename = 'test10m.mp4'
-pluscount = 10000
+filename = 'test.mp4'
+pluscount = 1000
+# filename = 'test10m.mp4'
+# pluscount = 10000
 dirname = filename.replace('.mp4', '')
 data_path = f"./static/highlighteditor/{dirname}/data"
 try: 
