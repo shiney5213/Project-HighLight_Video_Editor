@@ -121,13 +121,28 @@ input[type=checkbox]{
     position: relative;
 }
 
-.slider_wrapper, .slider_warpper2{
+.slider_wrapper{
+    position: relative;
+    margin-bottom: 10px;
+    width: 900px;
+}
+.slider_wrapper2{
     position: relative;
     margin-bottom: 10px;
     width: 900px;
 }
 
-.slider_time_pos, .slider_time_pos2 {
+.slider_time_pos{
+    position: absolute;
+    width: 4px;
+    background: red;
+    height: 100%;
+    top: 0;
+    left: 20%;
+    z-index: 12;
+    cursor: pointer;
+}
+.slider_time_pos2{
     position: absolute;
     width: 4px;
     background: red;
