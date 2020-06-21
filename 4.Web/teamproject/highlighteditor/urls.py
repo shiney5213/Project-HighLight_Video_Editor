@@ -22,7 +22,7 @@ urlpatterns = [
     path('analysis', views.analysis),
     path('savevideo', views.savevideo),
     path('startSearch', views.startSearch),
-    path('subtitles', views.subtitles),
+    # path('subtitles', views.subtitles),
 
     # path('', views.uploadView.as_view(), name = 'vidoedit'),
     path('',  views.videoeditView.as_view(), name = 'videoedit'),

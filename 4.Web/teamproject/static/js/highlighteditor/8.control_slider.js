@@ -331,12 +331,12 @@ $(function() {
 		let ele = e.target;
 		let last_pos = e.clientX;  //처음위치
 		console.log('last_pos_init'+last_pos);
-		function mup(e, ele){
+		function mup2(e, ele){
 			console.log('up');
 			document.onmousemove = null;
 			document.onmouseup = null;
 		}
-		function mmov(e, ele){
+		function mmov2(e, ele){
 			let delta = e.clientX - last_pos;
 			console.log('Delta:', delta);
 			last_pos = e.clientX;
@@ -357,8 +357,8 @@ $(function() {
 			// video.currentTime = video.duration * total_percent
 		}
 		
-		document.onmousemove = (e)=>{mmov(e, ele)};
-		document.onmouseup = (e)=>{mup(e, ele)};
+		document.onmousemove = (e)=>{mmov2(e, ele)};
+		document.onmouseup = (e)=>{mup2(e, ele)};
 	});
 
 	//set save time 
